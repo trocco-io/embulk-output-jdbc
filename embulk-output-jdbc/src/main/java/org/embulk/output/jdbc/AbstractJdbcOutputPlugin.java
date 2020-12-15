@@ -25,6 +25,7 @@ import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 import org.embulk.spi.util.RetryExecutor;
 import org.embulk.spi.util.RetryExecutor.RetryGiveupException;
@@ -64,9 +65,6 @@ import org.embulk.spi.util.RetryExecutor.Retryable;
 
 import static org.embulk.spi.util.RetryExecutor.retryExecutor;
 import static org.embulk.output.jdbc.JdbcSchema.filterSkipColumns;
-
-// TODO: weida libs
-import java.util.function.Consumer;
 
 public abstract class AbstractJdbcOutputPlugin
         implements OutputPlugin
@@ -194,7 +192,6 @@ public abstract class AbstractJdbcOutputPlugin
         public abstract int countLength(Charset charset, String s);
     }
 
-    // TODO: weida this is tool for some properties
     public static class Features
     {
         private int maxTableNameLength = 64;
@@ -447,17 +444,12 @@ public abstract class AbstractJdbcOutputPlugin
         if (!features.getSupportedModes().contains(task.getMode())) {
             throw new ConfigException(String.format("This output type doesn't support '%s'. Supported modes are: %s", task.getMode(), features.getSupportedModes()));
         }
-        System.out.println("UUID Weida using auto.sh"); // TODO: weida revert here
-        System.out.println("UUID weida next: task = begin(task, schema, taskCount);"); // TODO: weida revert here
-        memoryStats();
+        memoryStats(); // TODO: weida revert here
         task = begin(task, schema, taskCount);
-        System.out.println("UUID weida next: control.run(task.dump());"); // TODO: weida revert here
         memoryStats();
         control.run(task.dump());
-        System.out.println("UUID weida next: return commit(task, schema, taskCount);"); // TODO: weida revert here
         memoryStats();
         return commit(task, schema, taskCount);
-        // return Exec.newConfigDiff();  // TODO: weida delete here
     }
 
     public ConfigDiff resume(TaskSource taskSource,
@@ -1032,8 +1024,6 @@ public abstract class AbstractJdbcOutputPlugin
         final PluginTask task = taskSource.loadTask(getTaskClass());
         final Mode mode = task.getMode();
 
-        // instantiate BatchInsert without table name
-        // TODO: weida here prepare batch
         BatchInsert batch = null;
         try {
             Optional<MergeConfig> config = Optional.empty();
@@ -1045,7 +1035,6 @@ public abstract class AbstractJdbcOutputPlugin
             throw new RuntimeException(ex);
         }
 
-        // TODO: weida here prepare output using batch
         try {
             // configure PageReader -> BatchInsert
             PageReader reader = new PageReader(schema);
@@ -1146,25 +1135,19 @@ public abstract class AbstractJdbcOutputPlugin
         @Override
         public void add(Page page)
         {
-            // page.release();
-            // TODO: weida revert here
-            memoryStats();
-            // System.out.printf("readRecords.size(): %d\n", pageReader.getReadRecords().size());
-
+            memoryStats(); // TODO: weida revert here
             try {
                 pageReader.setPage(page);
-                System.out.printf("readRecords.getRecordCount(page): %d\n", pageReader.getRecordCount(page));
                 while (pageReader.nextRecord()) {
                     if (batch.getBatchWeight() > forceBatchFlushSize) {
                         flush();
                     }
                     handleColumnsSetters();
-                    batch.add(); // TODO: weida revert here
+                    batch.add();
                 }
                 if (batch.getBatchWeight() > batchSize) {
                     flush();
                 }
-            // } catch (IOException | SQLException | InterruptedException ex) {
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -1172,7 +1155,6 @@ public abstract class AbstractJdbcOutputPlugin
 
         private void flush() throws SQLException, InterruptedException
         {
-            // TODO: weida revert here
             withRetry(task, new IdempotentSqlRunnable() {
                 private boolean first = true;
 
@@ -1196,9 +1178,6 @@ public abstract class AbstractJdbcOutputPlugin
                 }
             });
             try {
-                pageReader.foreachRecord(record -> {
-                  System.out.println(record);
-                });
                 pageReader.clearReadRecords();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -1208,7 +1187,6 @@ public abstract class AbstractJdbcOutputPlugin
         @Override
         public void finish()
         {
-            // TODO: weida revert here
             try {
                 flush();
 
@@ -1226,10 +1204,9 @@ public abstract class AbstractJdbcOutputPlugin
         @Override
         public void close()
         {
-            // TODO: weida revert here
             try {
                 batch.close();
-                pageReader.close(); // TODO: weida check here
+                pageReader.close();
             } catch (IOException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -1277,25 +1254,9 @@ public abstract class AbstractJdbcOutputPlugin
                 }
               }
             });
-            // TODO: weida delete here
-            // for (Iterator<? extends Record> it = pageReader.getReadRecords().iterator(); it.hasNext();) {
-            //     Record record = it.next();
-            //     // retry failed records
-            //     if (index >= updateCounts.length || updateCounts[index] == Statement.EXECUTE_FAILED) {
-            //         for (int i = 0; i < size; i++) {
-            //             ColumnSetterVisitor columnVisitor = new ColumnSetterVisitor(record, columnSetters.get(i));
-            //             columns.get(i).visit(columnVisitor);
-            //         }
-            //         batch.add();
-            //     } else {
-            //         // remove for re-retry
-            //         it.remove();
-            //     }
-            //     index++;
-            // }
         }
     }
-    // TODO: weida page output over
+
     protected boolean isRetryableException(Exception exception)
     {
         if (exception instanceof SQLException) {

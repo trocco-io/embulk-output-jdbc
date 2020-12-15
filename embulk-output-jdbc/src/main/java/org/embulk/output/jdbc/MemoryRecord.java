@@ -4,7 +4,6 @@ import java.time.Instant;
 import org.embulk.spi.Column;
 import org.msgpack.value.Value;
 
-// TODO: weida delete here
 public class MemoryRecord implements Record
 {
     private final Object[] values;
@@ -42,15 +41,17 @@ public class MemoryRecord implements Record
 
     public Instant getTimestamp(Column column)
     {
-        return ((org.embulk.spi.time.Timestamp) getValue(column)).getInstant();
+        // TODO: weida here has bug and now fixed
+        return (Instant)getValue(column);
     }
 
     public Value getJson(Column column)
     {
+        // TODO: weida here has bug and now fixed
         return (Value)getValue(column);
     }
 
-    protected Object getValue(Column column)
+    private Object getValue(Column column)
     {
         return values[column.getIndex()];
     }
@@ -58,19 +59,5 @@ public class MemoryRecord implements Record
     public void setValue(Column column, Object value)
     {
         values[column.getIndex()] = value;
-    }
-
-    // TODO: weida delete this method
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("record: ");
-        for (int i = 0; i < values.length; i++) {
-            sb.append((String) values[i]);
-            if (i + 1 < values.length) {
-                sb.append(',');
-            }
-        }
-        return sb.toString();
     }
 }

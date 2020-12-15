@@ -263,8 +263,7 @@ public class RedshiftCopyBatchInsert
 
                 logger.info(String.format("Uploaded file %s (%.2f seconds)", s3KeyName, seconds));
             } finally {
-                // logger.warn("skip delete file"); // TODO: weida delete here
-                file.delete(); // TODO: weida revert here
+                file.delete();
             }
 
             return null;

@@ -23,7 +23,7 @@ import org.embulk.output.jdbc.Ssl;
 import org.embulk.output.redshift.RedshiftOutputConnector;
 import org.embulk.output.redshift.RedshiftCopyBatchInsert;
 
-// TODO: weida delete this method
+// TODO: weida libs
 import org.embulk.config.ConfigDiff;
 import org.embulk.config.ConfigSource;
 import org.embulk.spi.Schema;
@@ -98,23 +98,6 @@ public class RedshiftOutputPlugin
         @Config("copy_aws_account_id")
         @ConfigDefault("null")
         public Optional<String> getCopyAwsAccountId();
-    }
-
-    // TODO: weida delete this method
-    @Override
-    public ConfigDiff transaction(ConfigSource config,
-            Schema schema, int taskCount,
-            OutputPlugin.Control control)
-    {
-        try {
-          // TODO: weida delete here
-          System.out.println(String.format("transaction started at %s\n", new Date()));
-          return super.transaction(config, schema, taskCount, control);
-        } finally {
-          // TODO: weida delete here
-          System.out.println(String.format("transaction finished at %s\n", new Date()));
-        }
-
     }
 
     @Override

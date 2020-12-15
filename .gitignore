@@ -13,3 +13,4 @@ embulk-output-redshift/.java-version
 embulk-output-redshift/errors/**
 embulk-output-redshift/tmp/**
 **/.DS_Store
+embulk-output-redshift/auto.sh

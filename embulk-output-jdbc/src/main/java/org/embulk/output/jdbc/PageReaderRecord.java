@@ -18,6 +18,8 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.util.function.Consumer;
+import org.embulk.spi.ColumnVisitor;
+import org.msgpack.value.ValueFactory;
 
 /**
  * Record read by PageReader.
@@ -28,9 +30,7 @@ public class PageReaderRecord implements Record
     public static final char ITEM_DELIMITER = ',';
     public static final int BATCH_ROW_SIZE = 1024;
     private final PageReader pageReader;
-    // private final List<MemoryRecord> readRecords; // TODO: weida delete here
     protected File readRecordsFile;
-    protected int tmpRowCount = 0;
     protected BufferedWriter writer;
     protected BufferedReader reader;
     private MemoryRecord lastRecord;
@@ -38,48 +38,68 @@ public class PageReaderRecord implements Record
     public PageReaderRecord(PageReader pageReader) throws IOException
     {
         this.pageReader = pageReader;
-        // readRecords = new ArrayList<MemoryRecord>();
         readRecordsFile = createTempFile();
         writer = openWriter(readRecordsFile);
     }
-    public int getRecordCount(Page p) {
+
+    public int getRecordCount(Page p)
+    {
       return pageReader.getRecordCount(p);
     }
-    protected File createTempFile() throws IOException {
-        // TODO: weida revert here
+
+    protected File createTempFile() throws IOException
+    {
         return File.createTempFile("embulk-output-jdbc-records-", ".csv");
     }
 
-    protected BufferedWriter openWriter(File newFile) throws IOException {
+    protected BufferedWriter openWriter(File newFile) throws IOException
+    {
         return new BufferedWriter(new FileWriter(newFile));
     }
 
-    protected void writeRow(MemoryRecord record) throws IOException {
+    protected void writeRow(MemoryRecord record) throws IOException
+    {
         if (record == null) {
             return;
         }
         int columnCount = pageReader.getSchema().getColumnCount();
         for (int i = 0; i < columnCount; i++) {
             Column c = pageReader.getSchema().getColumn(i);
-            writer.write(String.valueOf(lastRecord.getValue(c)));
+            switch (c.getType().getName()) {
+                case "boolean":
+                    writer.write(Boolean.toString(lastRecord.getBoolean(c)));
+                    break;
+                case "long":
+                    writer.write(Long.toString(lastRecord.getLong(c)));
+                    break;
+                case "double":
+                    writer.write(Double.toString(lastRecord.getDouble(c)));
+                    break;
+                case "json":
+                    writer.write(lastRecord.getJson(c).toJson());
+                    break;
+                case "timestamp":
+                    writer.write(lastRecord.getTimestamp(c).toString());
+                    break;
+                case "string":
+                    writer.write(lastRecord.getString(c));
+                    break;
+            }
             if (i + 1 < columnCount) {
               writer.write(ITEM_DELIMITER);
             }
         }
         writer.newLine();
-        tmpRowCount++;
         writer.flush();
-        if (tmpRowCount >= BATCH_ROW_SIZE) {
-          // writer.flush();
-          tmpRowCount = 0;
-        }
     }
 
-    protected BufferedReader openReader(File file) throws IOException {
+    protected BufferedReader openReader(File file) throws IOException
+    {
         return new BufferedReader(new FileReader(file));
     }
 
-    protected void close() throws IOException {
+    protected void close() throws IOException
+    {
         if (writer != null) {
             writer.close();
             writer = null;
@@ -89,12 +109,6 @@ public class PageReaderRecord implements Record
             reader = null;
         }
         readRecordsFile.delete();
-    }
-
-    // TODO: weida delete this method
-    public PageReader getPageReader()
-    {
-        return this.pageReader;
     }
 
     public void setPage(Page page)
@@ -144,28 +158,50 @@ public class PageReaderRecord implements Record
         return save(column, pageReader.getJson(column));
     }
 
-    // public List<? extends Record> getReadRecords() // TODO: weida using file
-    // {
-    //     return readRecords;
-    // }
-
-    // TODO: weida type of value
-    public void foreachRecord(Consumer<? super Record> comsumer) throws IOException {
+    public void foreachRecord(Consumer<? super Record> comsumer) throws IOException
+    {
       if (reader != null) {
           reader.close();
           reader = null;
       }
-      BufferedReader reader = new BufferedReader(new FileReader(readRecordsFile));
+      reader = new BufferedReader(new FileReader(readRecordsFile));
       try {
           int columnCount = pageReader.getSchema().getColumnCount();
           MemoryRecord record = new MemoryRecord(columnCount);
           String row = null;
           while ((row = reader.readLine()) != null) {
               String[] values = row.split(String.valueOf(ITEM_DELIMITER));
+              System.out.printf("record:");
               for (int i = 0; i < columnCount; i++) {
                   Column c = pageReader.getSchema().getColumn(i);
-                  record.setValue(c, values[i]);
+                  switch (c.getType().getName()) {
+                      case "boolean":
+                          System.out.printf(" %s,", Boolean.valueOf(values[i])); // TODO: weida revert here
+                          record.setValue(c, Boolean.valueOf(values[i]));
+                          break;
+                      case "long":
+                          System.out.printf(" %s,", Long.valueOf(values[i]));
+                          record.setValue(c, Long.valueOf(values[i]));
+                          break;
+                      case "double":
+                          System.out.printf(" %s,", Double.valueOf(values[i]));
+                          record.setValue(c, Double.valueOf(values[i]));
+                          break;
+                      case "json":
+                          System.out.printf(" %s,", ValueFactory.newString(values[i]));
+                          record.setValue(c, ValueFactory.newString(values[i]));
+                          break;
+                      case "timestamp":
+                          System.out.printf(" %s,", Instant.parse(values[i]));
+                          record.setValue(c, Instant.parse(values[i]));
+                          break;
+                      case "string":
+                          System.out.printf(" %s,", values[i]);
+                          record.setValue(c, values[i]);
+                          break;
+                  }
               }
+              System.out.println("");
               comsumer.accept(record);
           }
       } finally {
