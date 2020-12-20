@@ -38,7 +38,7 @@ public class PageReaderRecord implements Record
     protected File createTempFile() throws IOException
     {
         File f = File.createTempFile("embulk-output-jdbc-records-", ".csv");
-//        f.deleteOnExit(); // TODO: weida revert here
+        f.deleteOnExit();
         return f;
     }
 
@@ -62,7 +62,7 @@ public class PageReaderRecord implements Record
             reader.close();
             reader = null;
         }
-//        readRecordsFile.delete(); // TODO: weida revert here
+        readRecordsFile.delete();
     }
 
     public void setPage(Page page)

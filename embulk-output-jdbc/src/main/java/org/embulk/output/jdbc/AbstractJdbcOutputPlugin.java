@@ -1120,16 +1120,12 @@ public abstract class AbstractJdbcOutputPlugin
                 pageReader.setPage(page);
                 while (pageReader.nextRecord()) {
                     if (batch.getBatchWeight() > forceBatchFlushSize) {
-                        // TODO: weida revert here
-                        System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                         flush();
                     }
                     handleColumnsSetters();
                     batch.add();
                 }
                 if (batch.getBatchWeight() > batchSize) {
-                    // TODO: weida revert here
-                    System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                     flush();
                 }
             } catch (Exception ex) {
@@ -1171,8 +1167,6 @@ public abstract class AbstractJdbcOutputPlugin
         public void finish()
         {
             try {
-                // TODO: weida revert here
-                System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                 flush();
 
                 withRetry(task, new IdempotentSqlRunnable() {
