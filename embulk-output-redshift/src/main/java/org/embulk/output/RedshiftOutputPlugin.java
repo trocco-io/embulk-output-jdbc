@@ -23,13 +23,6 @@ import org.embulk.output.jdbc.Ssl;
 import org.embulk.output.redshift.RedshiftOutputConnector;
 import org.embulk.output.redshift.RedshiftCopyBatchInsert;
 
-// TODO: weida libs
-import org.embulk.config.ConfigDiff;
-import org.embulk.config.ConfigSource;
-import org.embulk.spi.Schema;
-import org.embulk.spi.OutputPlugin;
-import java.util.Date;
-
 public class RedshiftOutputPlugin
         extends AbstractJdbcOutputPlugin
 {

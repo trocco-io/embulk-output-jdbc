@@ -69,22 +69,6 @@ import static org.embulk.output.jdbc.JdbcSchema.filterSkipColumns;
 public abstract class AbstractJdbcOutputPlugin
         implements OutputPlugin
 {
-    // TODO: weida delete this method
-    public static void memoryStats() {
-        int mb = 1024 * 1024;
-        // get Runtime instance
-        Runtime instance = Runtime.getRuntime();
-        System.out.println("***** Heap utilization statistics [MB] *****\n");
-        // available memory
-        System.out.println("Total Memory: " + instance.totalMemory() / mb);
-        // free memory
-        System.out.println("Free Memory: " + instance.freeMemory() / mb);
-        // used memory
-        System.out.println("Used Memory: "
-                + (instance.totalMemory() - instance.freeMemory()) / mb);
-        // Maximum available memory
-        System.out.println("Max Memory: " + instance.maxMemory() / mb);
-    }
     protected static final Logger logger = LoggerFactory.getLogger(AbstractJdbcOutputPlugin.class);
 
     public interface PluginTask
@@ -444,11 +428,8 @@ public abstract class AbstractJdbcOutputPlugin
         if (!features.getSupportedModes().contains(task.getMode())) {
             throw new ConfigException(String.format("This output type doesn't support '%s'. Supported modes are: %s", task.getMode(), features.getSupportedModes()));
         }
-        memoryStats(); // TODO: weida revert here
         task = begin(task, schema, taskCount);
-        memoryStats();
         control.run(task.dump());
-        memoryStats();
         return commit(task, schema, taskCount);
     }
 
@@ -1135,17 +1116,20 @@ public abstract class AbstractJdbcOutputPlugin
         @Override
         public void add(Page page)
         {
-            memoryStats(); // TODO: weida revert here
             try {
                 pageReader.setPage(page);
                 while (pageReader.nextRecord()) {
                     if (batch.getBatchWeight() > forceBatchFlushSize) {
+                        // TODO: weida revert here
+                        System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                         flush();
                     }
                     handleColumnsSetters();
                     batch.add();
                 }
                 if (batch.getBatchWeight() > batchSize) {
+                    // TODO: weida revert here
+                    System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                     flush();
                 }
             } catch (Exception ex) {
@@ -1157,7 +1141,6 @@ public abstract class AbstractJdbcOutputPlugin
         {
             withRetry(task, new IdempotentSqlRunnable() {
                 private boolean first = true;
-
                 @Override
                 public void run() throws IOException, SQLException {
                     try {
@@ -1188,6 +1171,8 @@ public abstract class AbstractJdbcOutputPlugin
         public void finish()
         {
             try {
+                // TODO: weida revert here
+                System.out.printf("flush triggered, maximum_batch_size: %d, current_batch_size: %d\n", forceBatchFlushSize/(1024*1024), batch.getBatchWeight()/(1024*1024));
                 flush();
 
                 withRetry(task, new IdempotentSqlRunnable() {

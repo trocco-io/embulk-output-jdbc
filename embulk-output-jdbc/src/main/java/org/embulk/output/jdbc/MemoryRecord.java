@@ -41,13 +41,11 @@ public class MemoryRecord implements Record
 
     public Instant getTimestamp(Column column)
     {
-        // TODO: weida here has bug and now fixed
         return (Instant)getValue(column);
     }
 
     public Value getJson(Column column)
     {
-        // TODO: weida here has bug and now fixed
         return (Value)getValue(column);
     }
 
