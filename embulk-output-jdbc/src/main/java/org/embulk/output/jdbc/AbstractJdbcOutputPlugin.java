@@ -1005,6 +1005,7 @@ public abstract class AbstractJdbcOutputPlugin
         final PluginTask task = taskSource.loadTask(getTaskClass());
         final Mode mode = task.getMode();
 
+        // instantiate BatchInsert without table name
         BatchInsert batch = null;
         try {
             Optional<MergeConfig> config = Optional.empty();
@@ -1128,7 +1129,7 @@ public abstract class AbstractJdbcOutputPlugin
                 if (batch.getBatchWeight() > batchSize) {
                     flush();
                 }
-            } catch (Exception ex) {
+            } catch (IOException | SQLException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
         }

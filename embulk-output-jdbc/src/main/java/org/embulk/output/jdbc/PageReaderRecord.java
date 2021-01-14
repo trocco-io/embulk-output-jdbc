@@ -1,11 +1,5 @@
 package org.embulk.output.jdbc;
 
-import org.embulk.spi.Column;
-import org.embulk.spi.Page;
-import org.embulk.spi.PageReader;
-import org.msgpack.value.Value;
-import org.msgpack.value.ValueFactory;
-
 import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
@@ -14,6 +8,12 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.time.Instant;
 import java.util.function.Consumer;
+
+import org.embulk.spi.Column;
+import org.embulk.spi.Page;
+import org.embulk.spi.PageReader;
+import org.msgpack.value.Value;
+import org.msgpack.value.ValueFactory;
 
 /**
  * Record read by PageReader.
