@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
 import java.time.Instant;
 import java.util.function.Consumer;
 
 import org.embulk.spi.Column;
+import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.Page;
 import org.embulk.spi.PageReader;
 import org.msgpack.value.Value;
 import org.msgpack.value.ValueFactory;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 /**
  * Record read by PageReader.
@@ -24,8 +27,7 @@ public class PageReaderRecord implements Record
     public static final char ITEM_DELIMITER = ',';
     private final PageReader pageReader;
     protected File readRecordsFile;
-    protected BufferedWriter writer;
-    protected BufferedReader reader;
+    protected CSVPrinter writer;
     private MemoryRecord lastRecord;
 
     public PageReaderRecord(PageReader pageReader) throws IOException
@@ -35,38 +37,7 @@ public class PageReaderRecord implements Record
         writer = openWriter(readRecordsFile);
     }
 
-    protected File createTempFile() throws IOException
-    {
-        File f = File.createTempFile("embulk-output-jdbc-records-", ".csv");
-        f.deleteOnExit();
-        return f;
-    }
-
-    protected BufferedWriter openWriter(File newFile) throws IOException
-    {
-        return new BufferedWriter(new FileWriter(newFile));
-    }
-
-    protected BufferedReader openReader(File file) throws IOException
-    {
-        return new BufferedReader(new FileReader(file));
-    }
-
-    protected void close() throws IOException
-    {
-        if (writer != null) {
-            writer.close();
-            writer = null;
-        }
-        if (reader != null) {
-            reader.close();
-            reader = null;
-        }
-        readRecordsFile.delete();
-    }
-
-    public void setPage(Page page)
-    {
+    public void setPage(Page page) {
         pageReader.setPage(page);
     }
 
@@ -121,84 +92,6 @@ public class PageReaderRecord implements Record
         return value;
     }
 
-    protected void writeRow(MemoryRecord record) throws IOException
-    {
-        if (record == null) {
-            return;
-        }
-        int columnCount = pageReader.getSchema().getColumnCount();
-        for (int i = 0; i < columnCount; i++) {
-            Column c = pageReader.getSchema().getColumn(i);
-            switch (c.getType().getName()) {
-                case "boolean":
-                    writer.write(Boolean.toString(lastRecord.getBoolean(c)));
-                    break;
-                case "long":
-                    writer.write(Long.toString(lastRecord.getLong(c)));
-                    break;
-                case "double":
-                    writer.write(Double.toString(lastRecord.getDouble(c)));
-                    break;
-                case "json":
-                    writer.write(lastRecord.getJson(c).toString());
-                    break;
-                case "timestamp":
-                    writer.write(lastRecord.getTimestamp(c).toString());
-                    break;
-                case "string":
-                    writer.write(lastRecord.getString(c));
-                    break;
-            }
-            if (i + 1 < columnCount) { // write comma to separate each column from others
-                writer.write(ITEM_DELIMITER);
-            }
-        }
-        writer.newLine();
-        writer.flush();
-    }
-
-    public void foreachRecord(Consumer<? super Record> comsumer) throws IOException
-    {
-      if (reader != null) {
-          reader.close();
-          reader = null;
-      }
-      reader = new BufferedReader(new FileReader(readRecordsFile));
-      try {
-          int columnCount = pageReader.getSchema().getColumnCount();
-          MemoryRecord record = new MemoryRecord(columnCount);
-          String row = null;
-          while ((row = reader.readLine()) != null) {
-              String[] values = row.split(String.valueOf(ITEM_DELIMITER));
-              for (int i = 0; i < columnCount; i++) {
-                  Column c = pageReader.getSchema().getColumn(i);
-                  switch (c.getType().getName()) {
-                      case "boolean":
-                          record.setValue(c, Boolean.valueOf(values[i]));
-                          break;
-                      case "long":
-                          record.setValue(c, Long.valueOf(values[i]));
-                          break;
-                      case "double":
-                          record.setValue(c, Double.valueOf(values[i]));
-                          break;
-                      case "json":
-                          record.setValue(c, ValueFactory.newString(values[i]));
-                          break;
-                      case "timestamp":
-                          record.setValue(c, Instant.parse(values[i]));
-                          break;
-                      case "string":
-                          record.setValue(c, values[i]);
-                          break;
-                  }
-              }
-              comsumer.accept(record);
-          }
-      } finally {
-            reader.close();
-      }
-    }
 
     public void clearReadRecords() throws IOException
     {
@@ -206,5 +99,120 @@ public class PageReaderRecord implements Record
         readRecordsFile = createTempFile();
         writer = openWriter(readRecordsFile);
         lastRecord = null;
+    }
+
+    protected File createTempFile() throws IOException
+    {
+        File f = File.createTempFile("embulk-output-jdbc-records-", ".csv");
+        f.deleteOnExit();
+        return f;
+    }
+
+    protected CSVParser openReader(File newFile) throws IOException
+    {
+        return CSVParser.parse(new FileReader(newFile), CSVFormat.DEFAULT);
+    }
+
+    protected CSVPrinter openWriter(File newFile) throws IOException
+    {
+        return new CSVPrinter(new FileWriter(newFile), CSVFormat.DEFAULT);
+    }
+
+    private void write(String value)
+    {
+        try {
+            writer.print(value);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected void close() throws IOException
+    {
+        if (writer != null) {
+            writer.close();
+            writer = null;
+        }
+        readRecordsFile.delete();
+    }
+
+    protected void writeRow(MemoryRecord record) throws IOException
+    {
+        if (record == null) {
+            return;
+        }
+        pageReader.getSchema().visitColumns(new ColumnVisitor() {
+            @Override
+            public void booleanColumn(Column column) {
+                write(Boolean.toString(lastRecord.getBoolean(column)));
+            }
+
+            @Override
+            public void longColumn(Column column) {
+                write(Long.toString(lastRecord.getLong(column)));
+            }
+
+            @Override
+            public void doubleColumn(Column column) {
+                write(Double.toString(lastRecord.getDouble(column)));
+            }
+
+            @Override
+            public void stringColumn(Column column) {
+                write(lastRecord.getString(column));
+            }
+
+            @Override
+            public void timestampColumn(Column column) {
+                write(lastRecord.getTimestamp(column).toString());
+            }
+
+            @Override
+            public void jsonColumn(Column column) {
+                write(lastRecord.getJson(column).toString());
+            }
+        });
+        writer.println();
+        writer.flush();
+    }
+
+    public void foreachRecord(Consumer<? super Record> comsumer) throws IOException
+    {
+        try (CSVParser reader = openReader(readRecordsFile)) {
+            MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
+            for (CSVRecord r : reader) {
+                pageReader.getSchema().visitColumns(new ColumnVisitor() {
+                    @Override
+                    public void booleanColumn(Column column) {
+                        record.setValue(column, Boolean.valueOf(r.get(column.getIndex())));
+                    }
+
+                    @Override
+                    public void longColumn(Column column) {
+                        record.setValue(column, Long.valueOf(r.get(column.getIndex())));
+                    }
+
+                    @Override
+                    public void doubleColumn(Column column) {
+                        record.setValue(column, Double.valueOf(r.get(column.getIndex())));
+                    }
+
+                    @Override
+                    public void stringColumn(Column column) {
+                        record.setValue(column, r.get(column.getIndex()));
+                    }
+
+                    @Override
+                    public void timestampColumn(Column column) {
+                        record.setValue(column, Instant.parse(r.get(column.getIndex())));
+                    }
+
+                    @Override
+                    public void jsonColumn(Column column) {
+                        record.setValue(column, ValueFactory.newString(r.get(column.getIndex())));
+                    }
+                });
+            }
+        }
     }
 }
