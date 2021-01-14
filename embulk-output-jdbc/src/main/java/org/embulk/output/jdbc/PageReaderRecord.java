@@ -24,7 +24,6 @@ import org.apache.commons.csv.CSVRecord;
  */
 public class PageReaderRecord implements Record
 {
-    public static final char ITEM_DELIMITER = ',';
     private final PageReader pageReader;
     protected File readRecordsFile;
     protected CSVPrinter writer;
