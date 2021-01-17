@@ -211,6 +211,7 @@ public class PageReaderRecord implements Record
                         record.setValue(column, ValueFactory.newString(r.get(column.getIndex())));
                     }
                 });
+                comsumer.accept(record);
             }
         }
     }
