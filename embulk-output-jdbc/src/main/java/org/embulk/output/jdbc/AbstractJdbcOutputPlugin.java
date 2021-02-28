@@ -1164,12 +1164,13 @@ public abstract class AbstractJdbcOutputPlugin
                                 columns.get(i).visit(columnVisitor);
                             }
                             batch.add();
+//                            pageReader.showRecord((MemoryRecord) record); // TODO: weida revert here
                         }
                         index++;
                     } catch (IOException | SQLException ex) {
                         throw new RuntimeException(ex);
                     } finally {
-                        return !needToRetry;
+                        return needToRetry;
                     }
                 }
             });

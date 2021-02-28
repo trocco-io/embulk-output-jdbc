@@ -27,7 +27,8 @@ public class StandardBatchInsert
     private int batchWeight;
     private int batchRows;
     private long totalRows;
-    private int[] lastUpdateCounts;
+//    private int[] lastUpdateCounts; // TODO: weida revert here
+    private int[] lastUpdateCounts = new int[]{};
 
     public StandardBatchInsert(JdbcOutputConnector connector, Optional<MergeConfig> mergeConfig) throws IOException, SQLException
     {

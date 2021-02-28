@@ -114,7 +114,12 @@ public class PageReaderRecord implements Record {
     }
 
     protected CSVPrinter openWriter(File newFile) throws IOException {
-        return new CSVPrinter(new FileWriter(newFile), DEFAULT_FORMAT);
+        long length = newFile.length();
+        System.out.println(String.format("length: %d", length));
+        if (length == 0) {
+            return new CSVPrinter(new FileWriter(newFile), DEFAULT_FORMAT);
+        }
+        return new CSVPrinter(new FileWriter(newFile, true), DEFAULT_FORMAT);
     }
 
     private void write(CSVPrinter writer, final Object value) {
@@ -130,7 +135,7 @@ public class PageReaderRecord implements Record {
             writer.close();
             writer = null;
         }
-//        readRecordsFile.delete(); // TODO: weida revert here
+        readRecordsFile = null;
     }
 
     protected void writeRow(MemoryRecord record) throws IOException {
@@ -139,109 +144,110 @@ public class PageReaderRecord implements Record {
 
     protected void writeRow(CSVPrinter writer, MemoryRecord record) throws IOException {
         if (record == null) {
-            System.out.println("record is null");
             return;
         }
         pageReader.getSchema().visitColumns(new ColumnVisitor() {
             @Override
             public void booleanColumn(Column column) {
-                System.out.print(record.getBoolean(column));
                 write(writer, record.getBoolean(column));
             }
 
             @Override
             public void longColumn(Column column) {
-                System.out.print(record.getLong(column));
                 write(writer, record.getLong(column));
             }
 
             @Override
             public void doubleColumn(Column column) {
-                System.out.print(record.getDouble(column));
                 write(writer, record.getDouble(column));
             }
 
             @Override
             public void stringColumn(Column column) {
-                System.out.print(record.getString(column));
                 write(writer, record.getString(column));
             }
 
             @Override
             public void timestampColumn(Column column) {
-                System.out.print(record.getTimestamp(column));
                 write(writer, record.getTimestamp(column));
             }
 
             @Override
             public void jsonColumn(Column column) {
-                System.out.print(record.getJson(column));
                 write(writer, record.getJson(column));
             }
         });
-        System.out.print("\n");
         writer.println();
         writer.flush();
     }
 
     public void foreachRecord(Function<? super Record, Boolean> function) throws IOException {
         File tmpFile = createTempFile("retry");
-        try (CSVParser reader = openReader(readRecordsFile); CSVPrinter tmpWriter = openWriter(tmpFile)) {
-            MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
+        System.out.println(String.format("file path: %s", tmpFile.getPath()));
+        try(CSVParser reader = openReader(readRecordsFile); CSVPrinter tmpWriter = openWriter(tmpFile)) {
+            tmpWriter.print("before process"); // TODO: weida delete here
+            tmpWriter.println();
             for (CSVRecord r : reader) {
+                MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
                 pageReader.getSchema().visitColumns(new ColumnVisitor() {
                     @Override
                     public void booleanColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), Boolean.class);
-//                        record.setValue(column, Boolean.valueOf(r.get(column.getIndex())));
                     }
 
                     @Override
                     public void longColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), Long.class);
-//                        record.setValue(column, Long.valueOf(r.get(column.getIndex())));
                     }
 
                     @Override
                     public void doubleColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), Double.class);
-//                        record.setValue(column, Double.valueOf(r.get(column.getIndex())));
                     }
 
                     @Override
                     public void stringColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), String.class);
-//                        record.setValue(column, r.get(column.getIndex()));
                     }
 
                     @Override
                     public void timestampColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), Instant.class);
-//                        record.setValue(column, Instant.parse(r.get(column.getIndex())));
                     }
 
                     @Override
                     public void jsonColumn(Column column) {
                         setValue(record, column, r.get(column.getIndex()), Value.class);
-//                        record.setValue(column, ValueFactory.newString(r.get(column.getIndex())));
                     }
                 });
-//                tmpWriter.printRecord(r);
-                showRecord(record);
-                writeRow(tmpWriter, record);
-//                if (!function.apply(record)) {
-//                    System.out.println("write");
-//                    System.out.println(tmpWriter);
-//                    System.out.println(record);
-//                    writeRow(tmpWriter, record);
-////                    writeRow(record);
-//                } else {
-//                    System.out.println("skip writting");
-//                }
+                if (function.apply(record)) {
+                    tmpWriter.printRecord(r);
+                    writeRow(tmpWriter, record);
+                    tmpWriter.flush();
+                }
             }
-//            tmpWriter.close();
-            setReadRecords(tmpFile);
+            tmpWriter.print("out of the reader"); // TODO: weida delete here
+            tmpWriter.println();
+            tmpWriter.flush();
+            System.out.println("out of the reader");
         }
+        setReadRecords(tmpFile);
+    }
+
+    private void test(CSVPrinter tmpWriter, File tmpFile, Record record) throws  IOException {
+        tmpWriter.print("in the reader");
+        tmpWriter.println();
+        tmpWriter.flush();
+        tmpWriter.printRecord(record);
+        System.out.println("in the reader");
+        tmpWriter.print(false);
+        tmpWriter.print(2);
+        tmpWriter.print(tmpFile.getPath());
+        tmpWriter.print(1.1);
+        tmpWriter.print("2020-1-1");
+        tmpWriter.print("{a:1}");
+        tmpWriter.println();
+        tmpWriter.flush();
     }
 
     private void setValue(MemoryRecord record, Column column, String str, Class<?> obj) {
@@ -266,7 +272,7 @@ public class PageReaderRecord implements Record {
         record.setValue(column, value);
     }
 
-    private void showRecord(MemoryRecord record) {
+    protected void showRecord(MemoryRecord record) {
         System.out.println("showRecord");
         if (record == null) {
             System.out.println("record is null");
