@@ -1071,19 +1071,25 @@ public abstract class AbstractJdbcOutputPlugin
         private void flush() throws SQLException, InterruptedException {
             withRetry(task, new IdempotentSqlRunnable() {
                 private boolean first = true;
-
+                private int retryCount = 0; // TODO: weida delete here
                 @Override
                 public void run() throws IOException, SQLException {
                     try {
+                        StandardBatchInsert sbatch = (StandardBatchInsert) batch; // TODO: weida delete this block
+                        sbatch.batch.clearBatch(); // TODO: weida delete this block
 //                        if (!first) {
                         if (true) { // TODO: weida revert here
                             System.out.println("retry block");
                             retryColumnsSetters();
+                            if (retryCount < 3) { // TODO: weida delete this block
+                                retryCount++;
+                                System.out.printf("UUID weida retry-%d", retryCount);
+                                throw new SQLException("just a test", "", 1213);
+                            }
                         }
-
                         batch.flush();
 //                        TODO: weida
-//                         1. why output data become double size
+//                         1. ok why output data become double size
 //                         2. resolve intermediately deleting uploaded data
 
                     } catch (IOException | SQLException ex) {

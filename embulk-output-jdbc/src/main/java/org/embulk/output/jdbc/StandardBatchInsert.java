@@ -22,7 +22,8 @@ public class StandardBatchInsert
     private final Optional<MergeConfig> mergeConfig;
 
     private JdbcOutputConnection connection;
-    private PreparedStatement batch;
+//    private PreparedStatement batch; // TODO: weida revert here
+    protected PreparedStatement batch;
     private int index;
     private int batchWeight;
     private int batchRows;

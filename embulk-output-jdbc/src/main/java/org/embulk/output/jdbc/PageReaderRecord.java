@@ -184,11 +184,15 @@ public class PageReaderRecord implements Record {
     public void foreachRecord(Function<? super Record, Boolean> function) throws IOException {
         File tmpFile = createTempFile("retry");
         System.out.println(String.format("file path: %s", tmpFile.getPath()));
+        System.out.println(readRecordsFile.getPath());
         try(CSVParser reader = openReader(readRecordsFile); CSVPrinter tmpWriter = openWriter(tmpFile)) {
             tmpWriter.print("before process"); // TODO: weida delete here
             tmpWriter.println();
+            System.out.println("A");
             for (CSVRecord r : reader) {
+                System.out.println("B");
                 MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
+                System.out.println("BBB");
                 pageReader.getSchema().visitColumns(new ColumnVisitor() {
                     @Override
                     public void booleanColumn(Column column) {
@@ -220,34 +224,20 @@ public class PageReaderRecord implements Record {
                         setValue(record, column, r.get(column.getIndex()), Value.class);
                     }
                 });
+                System.out.println("BBBB");
                 if (function.apply(record)) {
-                    tmpWriter.printRecord(r);
                     writeRow(tmpWriter, record);
                     tmpWriter.flush();
                 }
             }
+            System.out.println("C");
             tmpWriter.print("out of the reader"); // TODO: weida delete here
             tmpWriter.println();
             tmpWriter.flush();
+            System.out.println("D");
             System.out.println("out of the reader");
         }
         setReadRecords(tmpFile);
-    }
-
-    private void test(CSVPrinter tmpWriter, File tmpFile, Record record) throws  IOException {
-        tmpWriter.print("in the reader");
-        tmpWriter.println();
-        tmpWriter.flush();
-        tmpWriter.printRecord(record);
-        System.out.println("in the reader");
-        tmpWriter.print(false);
-        tmpWriter.print(2);
-        tmpWriter.print(tmpFile.getPath());
-        tmpWriter.print(1.1);
-        tmpWriter.print("2020-1-1");
-        tmpWriter.print("{a:1}");
-        tmpWriter.println();
-        tmpWriter.flush();
     }
 
     private void setValue(MemoryRecord record, Column column, String str, Class<?> obj) {
@@ -270,45 +260,5 @@ public class PageReaderRecord implements Record {
             value = str;
         }
         record.setValue(column, value);
-    }
-
-    protected void showRecord(MemoryRecord record) {
-        System.out.println("showRecord");
-        if (record == null) {
-            System.out.println("record is null");
-            return;
-        }
-        pageReader.getSchema().visitColumns(new ColumnVisitor() {
-            @Override
-            public void booleanColumn(Column column) {
-                System.out.print(record.getBoolean(column));
-            }
-
-            @Override
-            public void longColumn(Column column) {
-                System.out.print(record.getLong(column));
-            }
-
-            @Override
-            public void doubleColumn(Column column) {
-                System.out.print(record.getDouble(column));
-            }
-
-            @Override
-            public void stringColumn(Column column) {
-                System.out.print(record.getString(column));
-            }
-
-            @Override
-            public void timestampColumn(Column column) {
-                System.out.print(record.getTimestamp(column));
-            }
-
-            @Override
-            public void jsonColumn(Column column) {
-                System.out.print(record.getJson(column));
-            }
-        });
-        System.out.println("");
     }
 }
