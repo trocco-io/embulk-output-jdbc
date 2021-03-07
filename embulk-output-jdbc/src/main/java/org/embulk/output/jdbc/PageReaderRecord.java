@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.Instant;
+import java.util.ArrayList; // TODO: weida delete here
+import java.util.Random;
 
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
@@ -28,9 +30,24 @@ public class PageReaderRecord implements Record {
     protected File readRecordsFile;
     protected CSVPrinter writer;
     private MemoryRecord lastRecord;
+    private ArrayList<ArrayList<Boolean>> lists;
 
     public PageReaderRecord(PageReader pageReader) throws IOException {
         this.pageReader = pageReader;
+        this.lists = new ArrayList<ArrayList<Boolean>>();
+        ArrayList<Boolean> a = new ArrayList<Boolean>();
+        ArrayList<Boolean> b = new ArrayList<Boolean>();
+        for (int i = 0; i < 100; i ++) {
+            if (i < 50) {
+                a.add(true);
+                b.add(false);
+            } else {
+                a.add(false);
+                b.add(true);
+            }
+        }
+        lists.add(a);
+        lists.add(b);
         readRecordsFile = createTempFile();
         writer = openWriter(readRecordsFile);
     }
@@ -114,11 +131,6 @@ public class PageReaderRecord implements Record {
     }
 
     protected CSVPrinter openWriter(File newFile) throws IOException {
-        long length = newFile.length();
-        System.out.println(String.format("length: %d", length));
-        if (length == 0) {
-            return new CSVPrinter(new FileWriter(newFile), DEFAULT_FORMAT);
-        }
         return new CSVPrinter(new FileWriter(newFile, true), DEFAULT_FORMAT);
     }
 
@@ -186,13 +198,16 @@ public class PageReaderRecord implements Record {
         System.out.println(String.format("file path: %s", tmpFile.getPath()));
         System.out.println(readRecordsFile.getPath());
         try(CSVParser reader = openReader(readRecordsFile); CSVPrinter tmpWriter = openWriter(tmpFile)) {
-            tmpWriter.print("before process"); // TODO: weida delete here
-            tmpWriter.println();
+//            tmpWriter.print("false,0,TESTLINE,0,2021-03-05 07:24:31.841775000 +0900,{\"key\":\"abc\"}"); // TODO: weida delete here
+//            tmpWriter.println();
+            System.out.println("UUID weida 2");
             System.out.println("A");
+            int i = 0;
+            Random rr = new Random();
+            ArrayList<Boolean> l = lists.get(rr.nextInt(lists.size()));
             for (CSVRecord r : reader) {
                 System.out.println("B");
                 MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
-                System.out.println("BBB");
                 pageReader.getSchema().visitColumns(new ColumnVisitor() {
                     @Override
                     public void booleanColumn(Column column) {
@@ -225,19 +240,26 @@ public class PageReaderRecord implements Record {
                     }
                 });
                 System.out.println("BBBB");
-                if (function.apply(record)) {
+//                if (function.apply(record)) { // TODO: weida revert here
+//                if (l.get(i)) {
+                if (rr.nextBoolean()) {
                     writeRow(tmpWriter, record);
                     tmpWriter.flush();
                 }
+                i++;
             }
             System.out.println("C");
-            tmpWriter.print("out of the reader"); // TODO: weida delete here
-            tmpWriter.println();
-            tmpWriter.flush();
+//            tmpWriter.print("out of the reader"); // TODO: weida delete here
+//            tmpWriter.println();
+//            tmpWriter.flush();
             System.out.println("D");
             System.out.println("out of the reader");
         }
         setReadRecords(tmpFile);
+        CSVParser reader2 = openReader(readRecordsFile);
+        for (CSVRecord rrr : reader2) {
+            System.out.println(rrr);
+        }
     }
 
     private void setValue(MemoryRecord record, Column column, String str, Class<?> obj) {
