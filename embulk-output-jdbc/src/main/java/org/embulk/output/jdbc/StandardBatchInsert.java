@@ -22,14 +22,12 @@ public class StandardBatchInsert
     private final Optional<MergeConfig> mergeConfig;
 
     private JdbcOutputConnection connection;
-//    private PreparedStatement batch; // TODO: weida revert here
-    protected PreparedStatement batch;
+    private PreparedStatement batch;
     private int index;
     private int batchWeight;
     private int batchRows;
     private long totalRows;
-//    private int[] lastUpdateCounts; // TODO: weida revert here
-    private int[] lastUpdateCounts = new int[]{};
+    private int[] lastUpdateCounts;
 
     public StandardBatchInsert(JdbcOutputConnector connector, Optional<MergeConfig> mergeConfig) throws IOException, SQLException
     {

@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.Instant;
-import java.util.ArrayList; // TODO: weida delete here
-import java.util.Random;
 
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
@@ -30,24 +28,9 @@ public class PageReaderRecord implements Record {
     protected File readRecordsFile;
     protected CSVPrinter writer;
     private MemoryRecord lastRecord;
-    private ArrayList<ArrayList<Boolean>> lists;
 
     public PageReaderRecord(PageReader pageReader) throws IOException {
         this.pageReader = pageReader;
-        this.lists = new ArrayList<ArrayList<Boolean>>();
-        ArrayList<Boolean> a = new ArrayList<Boolean>();
-        ArrayList<Boolean> b = new ArrayList<Boolean>();
-        for (int i = 0; i < 100; i ++) {
-            if (i < 50) {
-                a.add(true);
-                b.add(false);
-            } else {
-                a.add(false);
-                b.add(true);
-            }
-        }
-        lists.add(a);
-        lists.add(b);
         readRecordsFile = createTempFile();
         writer = openWriter(readRecordsFile);
     }
@@ -108,21 +91,13 @@ public class PageReaderRecord implements Record {
 
     private void setReadRecords(File newRecordsFile) throws IOException {
         close();
-        System.out.println("setReadRecords");
         readRecordsFile = newRecordsFile;
         writer = openWriter(readRecordsFile);
     }
 
     protected File createTempFile() throws IOException {
         File f = File.createTempFile("embulk-output-jdbc-records-", ".csv");
-//        f.deleteOnExit();
-        return f;
-    }
-
-    protected File createTempFile(String s) throws IOException // TODO: weida delete this method
-    {
-        File f = File.createTempFile(s + "embulk-output-jdbc-records-", ".csv");
-//        f.deleteOnExit(); // TODO: weida revert here
+        f.deleteOnExit();
         return f;
     }
 
@@ -194,19 +169,9 @@ public class PageReaderRecord implements Record {
     }
 
     public void foreachRecord(Function<? super Record, Boolean> function) throws IOException {
-        File tmpFile = createTempFile("retry");
-        System.out.println(String.format("file path: %s", tmpFile.getPath()));
-        System.out.println(readRecordsFile.getPath());
+        File tmpFile = createTempFile();
         try(CSVParser reader = openReader(readRecordsFile); CSVPrinter tmpWriter = openWriter(tmpFile)) {
-//            tmpWriter.print("false,0,TESTLINE,0,2021-03-05 07:24:31.841775000 +0900,{\"key\":\"abc\"}"); // TODO: weida delete here
-//            tmpWriter.println();
-            System.out.println("UUID weida 2");
-            System.out.println("A");
-            int i = 0;
-            Random rr = new Random();
-            ArrayList<Boolean> l = lists.get(rr.nextInt(lists.size()));
             for (CSVRecord r : reader) {
-                System.out.println("B");
                 MemoryRecord record = new MemoryRecord(pageReader.getSchema().getColumnCount());
                 pageReader.getSchema().visitColumns(new ColumnVisitor() {
                     @Override
@@ -239,27 +204,13 @@ public class PageReaderRecord implements Record {
                         setValue(record, column, r.get(column.getIndex()), Value.class);
                     }
                 });
-                System.out.println("BBBB");
-//                if (function.apply(record)) { // TODO: weida revert here
-//                if (l.get(i)) {
-                if (rr.nextBoolean()) {
+                if (function.apply(record)) {
                     writeRow(tmpWriter, record);
                     tmpWriter.flush();
                 }
-                i++;
             }
-            System.out.println("C");
-//            tmpWriter.print("out of the reader"); // TODO: weida delete here
-//            tmpWriter.println();
-//            tmpWriter.flush();
-            System.out.println("D");
-            System.out.println("out of the reader");
         }
         setReadRecords(tmpFile);
-        CSVParser reader2 = openReader(readRecordsFile);
-        for (CSVRecord rrr : reader2) {
-            System.out.println(rrr);
-        }
     }
 
     private void setValue(MemoryRecord record, Column column, String str, Class<?> obj) {

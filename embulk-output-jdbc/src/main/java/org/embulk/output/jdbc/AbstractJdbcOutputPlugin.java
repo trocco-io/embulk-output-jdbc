@@ -1071,46 +1071,24 @@ public abstract class AbstractJdbcOutputPlugin
         private void flush() throws SQLException, InterruptedException {
             withRetry(task, new IdempotentSqlRunnable() {
                 private boolean first = true;
-                private int retryCount = 0; // TODO: weida delete here
                 @Override
                 public void run() throws IOException, SQLException {
                     try {
-                        System.out.println("UUID weida XXX");
-                        StandardBatchInsert sbatch = (StandardBatchInsert) batch; // TODO: weida delete this block
-                        sbatch.batch.clearBatch(); // TODO: weida delete this block
-//                        if (!first) {
-                        System.out.println("UUID weida YYY");
-                        if (true) { // TODO: weida revert here
-                            System.out.println("UUID weida ZZZ");
-                            System.out.println("retry block");
+                        if (!first) {
                             retryColumnsSetters();
-                            System.out.println("UUID weida MMM>");
-                            if (retryCount < 10) { // TODO: weida delete this block
-                                System.out.printf("UUID weida retry-%d", retryCount);
-                                retryCount++;
-                                throw new SQLException("just a test", "", 1213);
-                            }
-                            System.out.println("UUID weida NNN");
                         }
-                        System.out.println("UUID weida KKK");
                         batch.flush();
-//                        TODO: weida
-//                         1. ok why output data become double size
-//                         2. resolve intermediately deleting uploaded data
-                        System.out.println("UUID weida JJJ");
 
                     } catch (IOException | SQLException ex) {
                         if (!first && !isRetryableException(ex)) {
                             logger.error("Retry failed : ", ex);
                         }
-                        System.out.println("UUID WEIDA HERE IS TEST");
                         throw ex;
                     } finally {
                         first = false;
                     }
                 }
             });
-            System.out.println("UUID weida out of withRetry");
             try {
                 pageReader.clearReadRecords();
             } catch (IOException ex) {
@@ -1121,17 +1099,14 @@ public abstract class AbstractJdbcOutputPlugin
         @Override
         public void finish() {
             try {
-                System.out.println("UUID weida start finish");
                 flush();
 
-                System.out.println("UUID weida before retry batch.finish");
                 withRetry(task, new IdempotentSqlRunnable() {
                     @Override
                     public void run() throws IOException, SQLException {
                         batch.finish();
                     }
                 });
-                System.out.println("UUID weida finish finish");
             } catch (InterruptedException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -1164,21 +1139,16 @@ public abstract class AbstractJdbcOutputPlugin
         }
 
         protected void retryColumnsSetters() throws IOException {
-            System.out.println("UUID weida 0000");
             final int size = columnVisitors.size();
-            System.out.println("UUID weida 1111");
             pageReader.foreachRecord(new Function<Record, Boolean>() {
                 int index = 0;
                 int[] updateCounts = batch.getLastUpdateCounts();
                 @Override
                 public Boolean apply(Record record) {
-                    System.out.println("UUID weida 2222");
                     boolean needToRetry = index >= updateCounts.length || updateCounts[index] == Statement.EXECUTE_FAILED;
                     try {
                         // retry failed records
-                        System.out.println(String.format("index: %d", index));
                         if (needToRetry) {
-                            System.out.println("needToRetry");
                             for (int i = 0; i < size; i++) {
                                 ColumnSetterVisitor columnVisitor = new ColumnSetterVisitor(record, columnSetters.get(i));
                                 columns.get(i).visit(columnVisitor);
@@ -1193,7 +1163,6 @@ public abstract class AbstractJdbcOutputPlugin
                     }
                 }
             });
-            System.out.println("UUID weida 3333");
         }
     }
 
@@ -1226,7 +1195,6 @@ public abstract class AbstractJdbcOutputPlugin
             buildRetryExecutor(task)
                     .runInterruptible(new RetryableSQLExecution(op, errorMessage));
         } catch (ExecutionException ex) {
-            System.out.println("UUID weida here is withRetry's catch block");
             Throwable cause = ex.getCause();
             Throwables.propagateIfInstanceOf(cause, SQLException.class);
             throw Throwables.propagate(cause);
