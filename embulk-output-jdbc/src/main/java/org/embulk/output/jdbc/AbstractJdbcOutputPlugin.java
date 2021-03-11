@@ -186,8 +186,7 @@ public abstract class AbstractJdbcOutputPlugin
         private boolean ignoreMergeKeys = false;
 
         public Features()
-        {
-        }
+        { }
 
         @JsonProperty
         public int getMaxTableNameLength()
