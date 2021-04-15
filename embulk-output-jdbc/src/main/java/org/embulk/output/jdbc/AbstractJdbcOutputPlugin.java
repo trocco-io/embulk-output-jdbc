@@ -132,29 +132,23 @@ public abstract class AbstractJdbcOutputPlugin
         @Config("transaction_isolation")
         @ConfigDefault("null")
         public Optional<TransactionIsolation> getTransactionIsolation();
-
         public void setTransactionIsolation(Optional<TransactionIsolation> transactionIsolation);
 
         public void setActualTable(TableIdentifier actualTable);
-
         public TableIdentifier getActualTable();
 
         public void setMergeKeys(Optional<List<String>> keys);
 
         public void setFeatures(Features features);
-
         public Features getFeatures();
 
         public Optional<JdbcSchema> getNewTableSchema();
-
         public void setNewTableSchema(Optional<JdbcSchema> schema);
 
         public JdbcSchema getTargetTableSchema();
-
         public void setTargetTableSchema(JdbcSchema schema);
 
         public Optional<List<TableIdentifier>> getIntermediateTables();
-
         public void setIntermediateTables(Optional<List<TableIdentifier>> names);
     }
 
@@ -263,11 +257,9 @@ public abstract class AbstractJdbcOutputPlugin
             } catch (ClassNotFoundException ex) {
                 File root = findPluginRoot(getClass());
                 File driverLib = new File(root, "default_jdbc_driver");
-                File[] files = driverLib.listFiles(new FileFilter()
-                {
+                File[] files = driverLib.listFiles(new FileFilter() {
                     @Override
-                    public boolean accept(File file)
-                    {
+                    public boolean accept(File file) {
                         return file.isFile() && file.getName().endsWith(".jar");
                     }
                 });
@@ -293,7 +285,7 @@ public abstract class AbstractJdbcOutputPlugin
     protected void logConnectionProperties(String url, Properties props)
     {
         Properties maskedProps = new Properties();
-        for (String key : props.stringPropertyNames()) {
+        for(String key : props.stringPropertyNames()) {
             if (key.equals("password")) {
                 maskedProps.setProperty(key, "***");
             } else {
@@ -316,13 +308,12 @@ public abstract class AbstractJdbcOutputPlugin
     protected abstract BatchInsert newBatchInsert(PluginTask task, Optional<MergeConfig> mergeConfig) throws IOException, SQLException;
 
     protected JdbcOutputConnection newConnection(PluginTask task, boolean retryableMetadataOperation,
-                                                 boolean autoCommit) throws SQLException
+            boolean autoCommit) throws SQLException
     {
         return getConnector(task, retryableMetadataOperation).connect(autoCommit);
     }
 
-    public enum Mode
-    {
+    public enum Mode {
         INSERT,
         INSERT_DIRECT,
         MERGE,
@@ -340,21 +331,21 @@ public abstract class AbstractJdbcOutputPlugin
         @JsonCreator
         public static Mode fromString(String value)
         {
-            switch (value) {
-                case "insert":
-                    return INSERT;
-                case "insert_direct":
-                    return INSERT_DIRECT;
-                case "merge":
-                    return MERGE;
-                case "merge_direct":
-                    return MERGE_DIRECT;
-                case "truncate_insert":
-                    return TRUNCATE_INSERT;
-                case "replace":
-                    return REPLACE;
-                default:
-                    throw new ConfigException(String.format("Unknown mode '%s'. Supported modes are insert, insert_direct, merge, merge_direct, truncate_insert, replace", value));
+            switch(value) {
+            case "insert":
+                return INSERT;
+            case "insert_direct":
+                return INSERT_DIRECT;
+            case "merge":
+                return MERGE;
+            case "merge_direct":
+                return MERGE_DIRECT;
+            case "truncate_insert":
+                return TRUNCATE_INSERT;
+            case "replace":
+                return REPLACE;
+            default:
+                throw new ConfigException(String.format("Unknown mode '%s'. Supported modes are insert, insert_direct, merge, merge_direct, truncate_insert, replace", value));
             }
         }
 
@@ -416,8 +407,8 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     public ConfigDiff transaction(ConfigSource config,
-                                  Schema schema, int taskCount,
-                                  OutputPlugin.Control control)
+            Schema schema, int taskCount,
+            OutputPlugin.Control control)
     {
         PluginTask task = config.loadConfig(getTaskClass());
 
@@ -433,14 +424,15 @@ public abstract class AbstractJdbcOutputPlugin
         if (!features.getSupportedModes().contains(task.getMode())) {
             throw new ConfigException(String.format("This output type doesn't support '%s'. Supported modes are: %s", task.getMode(), features.getSupportedModes()));
         }
+
         task = begin(task, schema, taskCount);
         control.run(task.dump());
         return commit(task, schema, taskCount);
     }
 
     public ConfigDiff resume(TaskSource taskSource,
-                             Schema schema, int taskCount,
-                             OutputPlugin.Control control)
+            Schema schema, int taskCount,
+            OutputPlugin.Control control)
     {
         PluginTask task = taskSource.loadTask(getTaskClass());
 
@@ -454,11 +446,10 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     private PluginTask begin(final PluginTask task,
-                             final Schema schema, final int taskCount)
+            final Schema schema, final int taskCount)
     {
         try {
-            withRetry(task, new IdempotentSqlRunnable()
-            {  // no intermediate data if isDirectModify == true
+            withRetry(task, new IdempotentSqlRunnable() {  // no intermediate data if isDirectModify == true
                 public void run() throws SQLException
                 {
                     JdbcOutputConnection con = newConnection(task, true, false);
@@ -477,7 +468,7 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     private ConfigDiff commit(final PluginTask task,
-                              Schema schema, final int taskCount)
+            Schema schema, final int taskCount)
     {
         if (!task.getMode().isDirectModify() || task.getAfterLoad().isPresent()) {  // no intermediate data if isDirectModify == true
             try {
@@ -501,15 +492,14 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     public void cleanup(TaskSource taskSource,
-                        Schema schema, final int taskCount,
-                        final List<TaskReport> successTaskReports)
+            Schema schema, final int taskCount,
+            final List<TaskReport> successTaskReports)
     {
         final PluginTask task = taskSource.loadTask(getTaskClass());
 
         if (!task.getMode().isDirectModify()) {  // no intermediate data if isDirectModify == true
             try {
-                withRetry(task, new IdempotentSqlRunnable()
-                {
+                withRetry(task, new IdempotentSqlRunnable() {
                     public void run() throws SQLException
                     {
                         JdbcOutputConnection con = newConnection(task, true, true);
@@ -527,7 +517,7 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     protected void doBegin(JdbcOutputConnection con,
-                           PluginTask task, final Schema schema, int taskCount) throws SQLException
+            PluginTask task, final Schema schema, int taskCount) throws SQLException
     {
         if (schema.getColumnCount() == 0) {
             throw new ConfigException("No column.");
@@ -564,14 +554,13 @@ public abstract class AbstractJdbcOutputPlugin
         task.setActualTable(new TableIdentifier(null, con.getSchemaName(), actualTable));
 
         Optional<JdbcSchema> initialTargetTableSchema =
-                mode.ignoreTargetTableSchema() ?
-                        Optional.<JdbcSchema>empty() :
-                        newJdbcSchemaFromTableIfExists(con, task.getActualTable());
+            mode.ignoreTargetTableSchema() ?
+                Optional.<JdbcSchema>empty() :
+                newJdbcSchemaFromTableIfExists(con, task.getActualTable());
 
         // TODO get CREATE TABLE statement from task if set
         JdbcSchema newTableSchema = applyColumnOptionsToNewTableSchema(
-                initialTargetTableSchema.orElseGet(new Supplier<JdbcSchema>()
-                {
+                initialTargetTableSchema.orElseGet(new Supplier<JdbcSchema>() {
                     public JdbcSchema get()
                     {
                         return newJdbcSchemaForNewTable(schema);
@@ -661,11 +650,10 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     private List<TableIdentifier> createIntermediateTables(final JdbcOutputConnection con,
-                                                           final PluginTask task, final int taskCount, final JdbcSchema newTableSchema) throws SQLException
+            final PluginTask task, final int taskCount, final JdbcSchema newTableSchema) throws SQLException
     {
         try {
-            return buildRetryExecutor(task).run(new Retryable<List<TableIdentifier>>()
-            {
+            return buildRetryExecutor(task).run(new Retryable<List<TableIdentifier>>() {
                 private TableIdentifier table;
                 private ImmutableList.Builder<TableIdentifier> intermTables;
 
@@ -742,7 +730,7 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     protected String generateIntermediateTableNamePrefix(String baseTableName, JdbcOutputConnection con,
-                                                         int suffixLength, int maxLength, LengthSemantics lengthSemantics) throws SQLException
+            int suffixLength, int maxLength, LengthSemantics lengthSemantics) throws SQLException
     {
         Charset tableNameCharset = con.getTableNameCharset();
         String tableName = baseTableName;
@@ -777,8 +765,7 @@ public abstract class AbstractJdbcOutputPlugin
 
     private static JdbcSchema applyColumnOptionsToNewTableSchema(JdbcSchema schema, final Map<String, JdbcColumnOption> columnOptions)
     {
-        return new JdbcSchema(Lists.transform(schema.getColumns(), new Function<JdbcColumn, JdbcColumn>()
-        {
+        return new JdbcSchema(Lists.transform(schema.getColumns(), new Function<JdbcColumn, JdbcColumn>() {
             public JdbcColumn apply(JdbcColumn c)
             {
                 JdbcColumnOption option = columnOptionOf(columnOptions, c.getName());
@@ -793,8 +780,8 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     protected static List<ColumnSetter> newColumnSetters(ColumnSetterFactory factory,
-                                                         JdbcSchema targetTableSchema, Schema inputValueSchema,
-                                                         Map<String, JdbcColumnOption> columnOptions)
+            JdbcSchema targetTableSchema, Schema inputValueSchema,
+            Map<String, JdbcColumnOption> columnOptions)
     {
         ImmutableList.Builder<ColumnSetter> builder = ImmutableList.builder();
         for (int schemaColumnIndex = 0; schemaColumnIndex < targetTableSchema.getCount(); schemaColumnIndex++) {
@@ -813,74 +800,74 @@ public abstract class AbstractJdbcOutputPlugin
     private static JdbcColumnOption columnOptionOf(Map<String, JdbcColumnOption> columnOptions, String columnName)
     {
         return Optional.ofNullable(columnOptions.get(columnName)).orElseGet(
-                // default column option
-                new Supplier<JdbcColumnOption>()
-                {
-                    public JdbcColumnOption get()
+                    // default column option
+                    new Supplier<JdbcColumnOption>()
                     {
-                        return Exec.newConfigSource().loadConfig(JdbcColumnOption.class);
-                    }
-                });
+                        public JdbcColumnOption get()
+                        {
+                            return Exec.newConfigSource().loadConfig(JdbcColumnOption.class);
+                        }
+                    });
     }
 
     private boolean checkTableNameLength(String tableName, Charset tableNameCharset,
-                                         int suffixLength, int maxLength, LengthSemantics lengthSemantics)
+            int suffixLength, int maxLength, LengthSemantics lengthSemantics)
     {
         return lengthSemantics.countLength(tableNameCharset, tableName) + suffixLength <= maxLength;
     }
 
     protected void doCommit(JdbcOutputConnection con, PluginTask task, int taskCount)
-            throws SQLException
+        throws SQLException
     {
         JdbcSchema schema = filterSkipColumns(task.getTargetTableSchema());
 
         switch (task.getMode()) {
-            case INSERT_DIRECT:
-            case MERGE_DIRECT:
-                // already loaded
-                if (task.getAfterLoad().isPresent()) {
-                    con.executeSql(task.getAfterLoad().get());
-                }
-                break;
+        case INSERT_DIRECT:
+        case MERGE_DIRECT:
+            // already loaded
+            if (task.getAfterLoad().isPresent()) {
+                con.executeSql(task.getAfterLoad().get());
+            }
+            break;
 
-            case INSERT:
-                // aggregate insert into target
-                if (task.getNewTableSchema().isPresent()) {
-                    con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
-                            task.getCreateTableConstraint(), task.getCreateTableOption());
-                }
-                con.collectInsert(task.getIntermediateTables().get(), schema, task.getActualTable(), false, task.getBeforeLoad(), task.getAfterLoad());
-                break;
+        case INSERT:
+            // aggregate insert into target
+            if (task.getNewTableSchema().isPresent()) {
+                con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
+                        task.getCreateTableConstraint(), task.getCreateTableOption());
+            }
+            con.collectInsert(task.getIntermediateTables().get(), schema, task.getActualTable(), false, task.getBeforeLoad(), task.getAfterLoad());
+            break;
 
-            case TRUNCATE_INSERT:
-                // truncate & aggregate insert into target
-                if (task.getNewTableSchema().isPresent()) {
-                    con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
-                            task.getCreateTableConstraint(), task.getCreateTableOption());
-                }
-                con.collectInsert(task.getIntermediateTables().get(), schema, task.getActualTable(), true, task.getBeforeLoad(), task.getAfterLoad());
-                break;
+        case TRUNCATE_INSERT:
+            // truncate & aggregate insert into target
+            if (task.getNewTableSchema().isPresent()) {
+                con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
+                        task.getCreateTableConstraint(), task.getCreateTableOption());
+            }
+            con.collectInsert(task.getIntermediateTables().get(), schema, task.getActualTable(), true, task.getBeforeLoad(), task.getAfterLoad());
+            break;
 
-            case MERGE:
-                // aggregate merge into target
-                if (task.getNewTableSchema().isPresent()) {
-                    con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
-                            task.getCreateTableConstraint(), task.getCreateTableOption());
-                }
-                con.collectMerge(task.getIntermediateTables().get(), schema, task.getActualTable(),
-                        new MergeConfig(task.getMergeKeys().get(), task.getMergeRule()), task.getBeforeLoad(), task.getAfterLoad());
-                break;
+        case MERGE:
+            // aggregate merge into target
+            if (task.getNewTableSchema().isPresent()) {
+                con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
+                        task.getCreateTableConstraint(), task.getCreateTableOption());
+            }
+            con.collectMerge(task.getIntermediateTables().get(), schema, task.getActualTable(),
+                    new MergeConfig(task.getMergeKeys().get(), task.getMergeRule()), task.getBeforeLoad(), task.getAfterLoad());
+            break;
 
-            case REPLACE:
-                // swap table
-                con.replaceTable(task.getIntermediateTables().get().get(0), schema, task.getActualTable(), task.getAfterLoad());
-                break;
+        case REPLACE:
+            // swap table
+            con.replaceTable(task.getIntermediateTables().get().get(0), schema, task.getActualTable(), task.getAfterLoad());
+            break;
         }
     }
 
     protected void doCleanup(JdbcOutputConnection con, PluginTask task, int taskCount,
-                             List<TaskReport> successTaskReports)
-            throws SQLException
+            List<TaskReport> successTaskReports)
+        throws SQLException
     {
         if (task.getIntermediateTables().isPresent()) {
             for (TableIdentifier intermTable : task.getIntermediateTables().get()) {
@@ -894,8 +881,7 @@ public abstract class AbstractJdbcOutputPlugin
         final ImmutableList.Builder<JdbcColumn> columns = ImmutableList.builder();
         for (Column c : schema.getColumns()) {
             final String columnName = c.getName();
-            c.visit(new ColumnVisitor()
-            {
+            c.visit(new ColumnVisitor() {
                 public void booleanColumn(Column column)
                 {
                     columns.add(JdbcColumn.newGenericTypeColumn(
@@ -943,7 +929,7 @@ public abstract class AbstractJdbcOutputPlugin
     }
 
     public Optional<JdbcSchema> newJdbcSchemaFromTableIfExists(JdbcOutputConnection connection,
-                                                               TableIdentifier table) throws SQLException
+            TableIdentifier table) throws SQLException
     {
         if (!connection.tableExists(table)) {
             // DatabaseMetaData.getPrimaryKeys fails if table does not exist
@@ -956,7 +942,7 @@ public abstract class AbstractJdbcOutputPlugin
         ResultSet rs = dbm.getPrimaryKeys(table.getDatabase(), table.getSchemaName(), table.getTableName());
         ImmutableSet.Builder<String> primaryKeysBuilder = ImmutableSet.builder();
         try {
-            while (rs.next()) {
+            while(rs.next()) {
                 primaryKeysBuilder.add(rs.getString("COLUMN_NAME"));
             }
         } finally {
@@ -985,7 +971,7 @@ public abstract class AbstractJdbcOutputPlugin
                 boolean isNotNull = "NO".equals(rs.getString("IS_NULLABLE"));
                 //rs.getString("COLUMN_DEF") // or null  // TODO
                 builder.add(JdbcColumn.newGenericTypeColumn(
-                        columnName, sqlType, simpleTypeName, colSize, decDigit, charOctetLength, isNotNull, isUniqueKey));
+                            columnName, sqlType, simpleTypeName, colSize, decDigit, charOctetLength, isNotNull, isUniqueKey));
                 // We can't get declared column name using JDBC API.
                 // Subclasses need to overwrite it.
             }
@@ -1080,7 +1066,7 @@ public abstract class AbstractJdbcOutputPlugin
             }
 
             File folder = new File(url.toURI()).getParentFile();
-            for (; ; folder = folder.getParentFile()) {
+            for (;; folder = folder.getParentFile()) {
                 if (folder == null) {
                     throw new RuntimeException("Cannot find 'embulk-output-xxx' folder.");
                 }
@@ -1107,21 +1093,20 @@ public abstract class AbstractJdbcOutputPlugin
         private final PluginTask task;
 
         public PluginPageOutput(PageReader pageReader,
-                                BatchInsert batch, List<ColumnSetter> columnSetters,
-                                int batchSize, PluginTask task) throws IOException
+                BatchInsert batch, List<ColumnSetter> columnSetters,
+                int batchSize, PluginTask task) throws IOException
         {
             this.pageReader = new PageReaderRecord(pageReader);
             this.batch = batch;
             this.columns = pageReader.getSchema().getColumns();
             this.columnSetters = columnSetters;
             this.columnVisitors = ImmutableList.copyOf(Lists.transform(
-                    columnSetters, new Function<ColumnSetter, ColumnSetterVisitor>()
-                    {
-                        public ColumnSetterVisitor apply(ColumnSetter setter)
-                        {
-                            return new ColumnSetterVisitor(PluginPageOutput.this.pageReader, setter);
-                        }
-                    }));
+                        columnSetters, new Function<ColumnSetter, ColumnSetterVisitor>() {
+                            public ColumnSetterVisitor apply(ColumnSetter setter)
+                            {
+                                return new ColumnSetterVisitor(PluginPageOutput.this.pageReader, setter);
+                            }
+                        }));
             this.batchSize = batchSize;
             this.task = task;
             this.forceBatchFlushSize = batchSize * 2;
@@ -1149,17 +1134,16 @@ public abstract class AbstractJdbcOutputPlugin
 
         private void flush() throws SQLException, InterruptedException
         {
-            withRetry(task, new IdempotentSqlRunnable()
-            {
+            withRetry(task, new IdempotentSqlRunnable() {
                 private boolean first = true;
 
                 @Override
-                public void run() throws IOException, SQLException
-                {
+                public void run() throws IOException, SQLException {
                     try {
                         if (!first) {
                             retryColumnsSetters();
                         }
+
                         batch.flush();
 
                     } catch (IOException | SQLException ex) {
@@ -1185,11 +1169,9 @@ public abstract class AbstractJdbcOutputPlugin
             try {
                 flush();
 
-                withRetry(task, new IdempotentSqlRunnable()
-                {
+                withRetry(task, new IdempotentSqlRunnable() {
                     @Override
-                    public void run() throws IOException, SQLException
-                    {
+                    public void run() throws IOException, SQLException {
                         batch.finish();
                     }
                 });
@@ -1223,7 +1205,7 @@ public abstract class AbstractJdbcOutputPlugin
         protected void handleColumnsSetters()
         {
             int size = columnVisitors.size();
-            for (int i = 0; i < size; i++) {
+            for (int i=0; i < size; i++) {
                 columns.get(i).visit(columnVisitors.get(i));
             }
         }
@@ -1263,7 +1245,7 @@ public abstract class AbstractJdbcOutputPlugin
     protected boolean isRetryableException(Exception exception)
     {
         if (exception instanceof SQLException) {
-            SQLException ex = (SQLException) exception;
+            SQLException ex = (SQLException)exception;
             return isRetryableException(ex.getSQLState(), ex.getErrorCode());
         } else {
             return false;
@@ -1292,7 +1274,7 @@ public abstract class AbstractJdbcOutputPlugin
     {
         try {
             buildRetryExecutor(task)
-                    .runInterruptible(new RetryableSQLExecution(op, errorMessage));
+                .runInterruptible(new RetryableSQLExecution(op, errorMessage));
         } catch (ExecutionException ex) {
             Throwable cause = ex.getCause();
             Throwables.propagateIfInstanceOf(cause, SQLException.class);
@@ -1300,16 +1282,14 @@ public abstract class AbstractJdbcOutputPlugin
         }
     }
 
-    private static RetryExecutor buildRetryExecutor(PluginTask task)
-    {
+    private static RetryExecutor buildRetryExecutor(PluginTask task) {
         return retryExecutor()
                 .withRetryLimit(task.getRetryLimit())
                 .withInitialRetryWait(task.getRetryWait())
                 .withMaxRetryWait(task.getMaxRetryWait());
     }
 
-    private static void throwAgainstInvalidTimeZone(final String timezone)
-    {
+    private static void throwAgainstInvalidTimeZone(final String timezone) {
         if (timezone == null) {
             return;
         }
@@ -1320,8 +1300,7 @@ public abstract class AbstractJdbcOutputPlugin
         }
     }
 
-    class RetryableSQLExecution implements Retryable<Void>
-    {
+    class RetryableSQLExecution implements Retryable<Void> {
         private final String errorMessage;
         private final IdempotentSqlRunnable op;
 
@@ -1333,8 +1312,7 @@ public abstract class AbstractJdbcOutputPlugin
             this.op = op;
         }
 
-        public Void call() throws Exception
-        {
+        public Void call() throws Exception {
             op.run();
             return null;
         }
@@ -1346,11 +1324,11 @@ public abstract class AbstractJdbcOutputPlugin
                 String sqlState = ex.getSQLState();
                 int errorCode = ex.getErrorCode();
                 logger.warn("{} ({}:{}), retrying {}/{} after {} seconds. Message: {}",
-                        errorMessage, errorCode, sqlState, retryCount, retryLimit, retryWait / 1000,
+                        errorMessage, errorCode, sqlState, retryCount, retryLimit, retryWait/1000,
                         buildExceptionMessage(exception));
             } else {
                 logger.warn("{}, retrying {}/{} after {} seconds. Message: {}",
-                        errorMessage, retryCount, retryLimit, retryWait / 1000,
+                        errorMessage, retryCount, retryLimit, retryWait/1000,
                         buildExceptionMessage(exception));
             }
             if (retryCount % 3 == 0) {
