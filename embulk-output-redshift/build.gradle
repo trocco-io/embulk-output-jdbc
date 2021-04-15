@@ -27,9 +27,4 @@ embulkPlugin {
     mainClass = "org.embulk.output.RedshiftOutputPlugin"
     category = "output"
     type = "redshift"
-    version = "0.9.0.2"
-}
-
-gem {
-  metadata = ["github_repo":"https://github.com/trocco-io/embulk-output-jdbc"]
 }
