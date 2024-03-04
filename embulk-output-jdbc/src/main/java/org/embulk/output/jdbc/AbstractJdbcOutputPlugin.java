@@ -358,6 +358,7 @@ public abstract class AbstractJdbcOutputPlugin
         MERGE,
         MERGE_DIRECT,
         TRUNCATE_INSERT,
+        UPDATE_INSERT,
         REPLACE;
 
         @JsonValue
@@ -381,6 +382,8 @@ public abstract class AbstractJdbcOutputPlugin
                 return MERGE_DIRECT;
             case "truncate_insert":
                 return TRUNCATE_INSERT;
+            case "update_insert":
+                return UPDATE_INSERT;
             case "replace":
                 return REPLACE;
             default:
@@ -401,7 +404,7 @@ public abstract class AbstractJdbcOutputPlugin
          */
         public boolean isMerge()
         {
-            return this == MERGE || this == MERGE_DIRECT;
+            return this == MERGE || this == MERGE_DIRECT || this == UPDATE_INSERT;
         }
 
         /**
@@ -409,7 +412,7 @@ public abstract class AbstractJdbcOutputPlugin
          */
         public boolean tempTablePerTask()
         {
-            return this == INSERT || this == MERGE || this == TRUNCATE_INSERT /*this == REPLACE_VIEW*/;
+            return this == INSERT || this == MERGE || this == TRUNCATE_INSERT || this == UPDATE_INSERT /*this == REPLACE_VIEW*/;
         }
 
         /**
@@ -894,6 +897,16 @@ public abstract class AbstractJdbcOutputPlugin
                         task.getCreateTableConstraint(), task.getCreateTableOption());
             }
             con.collectInsert(task.getIntermediateTables().get(), schema, task.getActualTable(), true, task.getBeforeLoad(), task.getAfterLoad());
+            break;
+
+        case UPDATE_INSERT:
+            // aggregate update & insert into target
+            if (task.getNewTableSchema().isPresent()) {
+                con.createTableIfNotExists(task.getActualTable(), task.getNewTableSchema().get(),
+                        task.getCreateTableConstraint(), task.getCreateTableOption());
+            }
+            con.collectUpdateInsert(task.getIntermediateTables().get(), schema, task.getActualTable(),
+                    new MergeConfig(task.getMergeKeys().get(), task.getMergeRule()), task.getBeforeLoad(), task.getAfterLoad());
             break;
 
         case MERGE:

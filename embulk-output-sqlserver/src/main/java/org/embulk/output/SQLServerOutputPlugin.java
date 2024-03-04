@@ -147,7 +147,7 @@ public class SQLServerOutputPlugin
         return new Features()
             .setMaxTableNameLength(128)
             .setSupportedModes(Collections.unmodifiableSet(new HashSet<Mode>(Arrays.asList(
-                    Mode.INSERT, Mode.INSERT_DIRECT, Mode.MERGE, Mode.TRUNCATE_INSERT, Mode.REPLACE))))
+                    Mode.INSERT, Mode.INSERT_DIRECT, Mode.MERGE, Mode.TRUNCATE_INSERT, Mode.UPDATE_INSERT, Mode.REPLACE))))
             .setIgnoreMergeKeys(false);
     }
 

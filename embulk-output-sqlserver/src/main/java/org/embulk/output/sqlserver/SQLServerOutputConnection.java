@@ -109,6 +109,90 @@ public class SQLServerOutputConnection
     }
 
     @Override
+    protected String buildCollectUpdateSql(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable,
+            MergeConfig mergeConfig) throws SQLException
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("UPDATE T SET ");
+        if (mergeConfig.getMergeRule().isPresent()) {
+            for (int i = 0; i < mergeConfig.getMergeRule().get().size(); i++) {
+                if (i != 0) { sb.append(", "); }
+                sb.append(mergeConfig.getMergeRule().get().get(i));
+            }
+        } else {
+            for (int i = 0; i < schema.getCount(); i++) {
+                if (i != 0) { sb.append(", "); }
+                String column = quoteIdentifierString(schema.getColumnName(i));
+                sb.append(column);
+                sb.append(" = S.");
+                sb.append(column);
+            }
+        }
+        sb.append(" FROM ");
+        sb.append(quoteTableIdentifier(toTable));
+        sb.append(" AS T");
+        sb.append(" JOIN (");
+        for (int i = 0; i < fromTables.size(); i++) {
+            if (i != 0) { sb.append(" UNION ALL "); }
+            sb.append(" SELECT ");
+            sb.append(buildColumns(schema, ""));
+            sb.append(" FROM ");
+            sb.append(quoteTableIdentifier(fromTables.get(i)));
+        }
+        sb.append(") AS S");
+        sb.append(" ON ");
+        for (int i = 0; i < mergeConfig.getMergeKeys().size(); i++) {
+            if (i != 0) { sb.append(" AND "); }
+            String mergeKey = quoteIdentifierString(mergeConfig.getMergeKeys().get(i));
+            sb.append("T.");
+            sb.append(mergeKey);
+            sb.append(" = S.");
+            sb.append(mergeKey);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    protected String buildCollectInsertSql(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable,
+            MergeConfig mergeConfig) throws SQLException
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("INSERT INTO ");
+        sb.append(quoteTableIdentifier(toTable));
+        sb.append(" (");
+        sb.append(buildColumns(schema, ""));
+        sb.append(") ");
+        sb.append("SELECT * FROM (");
+        for (int i = 0; i < fromTables.size(); i++) {
+            if (i != 0) { sb.append(" UNION ALL "); }
+            sb.append(" SELECT ");
+            sb.append(buildColumns(schema, ""));
+            sb.append(" FROM ");
+            sb.append(quoteTableIdentifier(fromTables.get(i)));
+        }
+        sb.append(") AS S");
+        sb.append(" WHERE NOT EXISTS (");
+        sb.append("SELECT 1 FROM ");
+        sb.append(quoteTableIdentifier(toTable));
+        sb.append(" AS T");
+        sb.append(" WHERE ");
+        for (int i = 0; i < mergeConfig.getMergeKeys().size(); i++) {
+            if (i != 0) { sb.append(" AND "); }
+            String mergeKey = quoteIdentifierString(mergeConfig.getMergeKeys().get(i));
+            sb.append("T.");
+            sb.append(mergeKey);
+            sb.append(" = S.");
+            sb.append(mergeKey);
+        }
+        sb.append(") ");
+
+        return sb.toString();
+    }
+
+    @Override
     protected String buildCollectMergeSql(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable, MergeConfig mergeConfig) throws SQLException
     {
         StringBuilder sb = new StringBuilder();

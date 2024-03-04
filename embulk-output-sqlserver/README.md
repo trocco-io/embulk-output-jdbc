@@ -65,6 +65,10 @@ embulk "-J-Djava.library.path=C:\drivers" run input-sqlserver.yml
   * Behavior: Same with `insert` mode excepting that it truncates the target table (with SQL `DELETE FROM`, not `TRUNCATE`) right before the last `INSERT ...` query.
   * Transactional: Yes.
   * Resumable: No.
+* **update_insert**:
+  * Behavior: Same with `merge` mode excepting that it runs separated `UPDATE` and `INSERT` statements instead of `MERGE` statement.
+  * Transactional: Yes.
+  * Resumable: No.
 * **replace**:
   * Behavior: This mode writes rows to an intermediate table first. If all those tasks run correctly, drops the target table and alters the name of the intermediate table into the target table name.
   * Transactional: No. If fails, the target table could be dropped (because SQL Server can't rollback DDL).

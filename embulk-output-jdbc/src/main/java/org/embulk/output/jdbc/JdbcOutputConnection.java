@@ -470,6 +470,46 @@ public class JdbcOutputConnection
         return sb.toString();
     }
 
+    protected void collectUpdateInsert(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable,
+            MergeConfig mergeConfig, Optional<String> preSql, Optional<String> postSql) throws SQLException
+    {
+        if (fromTables.isEmpty()) {
+            return;
+        }
+
+        Statement stmt = connection.createStatement();
+        try {
+            if (preSql.isPresent()) {
+                execute(stmt, preSql.get());
+            }
+
+            executeUpdate(stmt, buildCollectUpdateSql(fromTables, schema, toTable, mergeConfig));
+            executeUpdate(stmt, buildCollectInsertSql(fromTables, schema, toTable, mergeConfig));
+
+            if (postSql.isPresent()) {
+                execute(stmt, postSql.get());
+            }
+
+            commitIfNecessary(connection);
+        } catch (SQLException ex) {
+            throw safeRollback(connection, ex);
+        } finally {
+            stmt.close();
+        }
+    }
+
+    protected String buildCollectUpdateSql(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable,
+            MergeConfig mergeConfig) throws SQLException
+    {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    protected String buildCollectInsertSql(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable,
+            MergeConfig mergeConfig) throws SQLException
+    {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
     protected void collectMerge(List<TableIdentifier> fromTables, JdbcSchema schema, TableIdentifier toTable, MergeConfig mergeConfig,
             Optional<String> preSql, Optional<String> postSql) throws SQLException
     {
