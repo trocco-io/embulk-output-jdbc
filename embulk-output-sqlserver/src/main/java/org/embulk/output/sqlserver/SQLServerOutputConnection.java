@@ -115,41 +115,15 @@ public class SQLServerOutputConnection
         StringBuilder sb = new StringBuilder();
 
         sb.append("UPDATE T SET ");
-        if (mergeConfig.getMergeRule().isPresent()) {
-            for (int i = 0; i < mergeConfig.getMergeRule().get().size(); i++) {
-                if (i != 0) { sb.append(", "); }
-                sb.append(mergeConfig.getMergeRule().get().get(i));
-            }
-        } else {
-            for (int i = 0; i < schema.getCount(); i++) {
-                if (i != 0) { sb.append(", "); }
-                String column = quoteIdentifierString(schema.getColumnName(i));
-                sb.append(column);
-                sb.append(" = S.");
-                sb.append(column);
-            }
-        }
+        appendMergeRule(sb, schema, mergeConfig);
         sb.append(" FROM ");
         sb.append(quoteTableIdentifier(toTable));
         sb.append(" AS T");
         sb.append(" JOIN (");
-        for (int i = 0; i < fromTables.size(); i++) {
-            if (i != 0) { sb.append(" UNION ALL "); }
-            sb.append(" SELECT ");
-            sb.append(buildColumns(schema, ""));
-            sb.append(" FROM ");
-            sb.append(quoteTableIdentifier(fromTables.get(i)));
-        }
+        appendFromTables(sb, fromTables, schema);
         sb.append(") AS S");
         sb.append(" ON ");
-        for (int i = 0; i < mergeConfig.getMergeKeys().size(); i++) {
-            if (i != 0) { sb.append(" AND "); }
-            String mergeKey = quoteIdentifierString(mergeConfig.getMergeKeys().get(i));
-            sb.append("T.");
-            sb.append(mergeKey);
-            sb.append(" = S.");
-            sb.append(mergeKey);
-        }
+        appendMergeKeys(sb, mergeConfig);
 
         return sb.toString();
     }
@@ -166,27 +140,14 @@ public class SQLServerOutputConnection
         sb.append(buildColumns(schema, ""));
         sb.append(") ");
         sb.append("SELECT * FROM (");
-        for (int i = 0; i < fromTables.size(); i++) {
-            if (i != 0) { sb.append(" UNION ALL "); }
-            sb.append(" SELECT ");
-            sb.append(buildColumns(schema, ""));
-            sb.append(" FROM ");
-            sb.append(quoteTableIdentifier(fromTables.get(i)));
-        }
+        appendFromTables(sb, fromTables, schema);
         sb.append(") AS S");
         sb.append(" WHERE NOT EXISTS (");
         sb.append("SELECT 1 FROM ");
         sb.append(quoteTableIdentifier(toTable));
         sb.append(" AS T");
         sb.append(" WHERE ");
-        for (int i = 0; i < mergeConfig.getMergeKeys().size(); i++) {
-            if (i != 0) { sb.append(" AND "); }
-            String mergeKey = quoteIdentifierString(mergeConfig.getMergeKeys().get(i));
-            sb.append("T.");
-            sb.append(mergeKey);
-            sb.append(" = S.");
-            sb.append(mergeKey);
-        }
+        appendMergeKeys(sb, mergeConfig);
         sb.append(") ");
 
         return sb.toString();
@@ -201,15 +162,37 @@ public class SQLServerOutputConnection
         sb.append(quoteTableIdentifier(toTable));
         sb.append(" AS T");
         sb.append(" USING (");
+        appendFromTables(sb, fromTables, schema);
+        sb.append(") AS S");
+        sb.append(" ON (");
+        appendMergeKeys(sb, mergeConfig);
+        sb.append(")");
+        sb.append(" WHEN MATCHED THEN");
+        sb.append(" UPDATE SET ");
+        appendMergeRule(sb, schema, mergeConfig);
+        sb.append(" WHEN NOT MATCHED THEN");
+        sb.append(" INSERT (");
+        sb.append(buildColumns(schema, ""));
+        sb.append(") VALUES (");
+        sb.append(buildColumns(schema, "S."));
+        sb.append(");");
+
+        return sb.toString();
+    }
+
+    private void appendFromTables(StringBuilder sb, List<TableIdentifier> fromTables, JdbcSchema schema)
+    {
         for (int i = 0; i < fromTables.size(); i++) {
             if (i != 0) { sb.append(" UNION ALL "); }
-            sb.append(" SELECT ");
+            sb.append("SELECT ");
             sb.append(buildColumns(schema, ""));
             sb.append(" FROM ");
             sb.append(quoteTableIdentifier(fromTables.get(i)));
         }
-        sb.append(") AS S");
-        sb.append(" ON (");
+    }
+
+    private void appendMergeKeys(StringBuilder sb, MergeConfig mergeConfig)
+    {
         for (int i = 0; i < mergeConfig.getMergeKeys().size(); i++) {
             if (i != 0) { sb.append(" AND "); }
             String mergeKey = quoteIdentifierString(mergeConfig.getMergeKeys().get(i));
@@ -218,9 +201,10 @@ public class SQLServerOutputConnection
             sb.append(" = S.");
             sb.append(mergeKey);
         }
-        sb.append(")");
-        sb.append(" WHEN MATCHED THEN");
-        sb.append(" UPDATE SET ");
+    }
+
+    private void appendMergeRule(StringBuilder sb, JdbcSchema schema, MergeConfig mergeConfig)
+    {
         if (mergeConfig.getMergeRule().isPresent()) {
             for (int i = 0; i < mergeConfig.getMergeRule().get().size(); i++) {
                 if (i != 0) { sb.append(", "); }
@@ -235,14 +219,6 @@ public class SQLServerOutputConnection
                 sb.append(column);
             }
         }
-        sb.append(" WHEN NOT MATCHED THEN");
-        sb.append(" INSERT (");
-        sb.append(buildColumns(schema, ""));
-        sb.append(") VALUES (");
-        sb.append(buildColumns(schema, "S."));
-        sb.append(");");
-
-        return sb.toString();
     }
 
     private String buildColumns(JdbcSchema schema, String prefix)
