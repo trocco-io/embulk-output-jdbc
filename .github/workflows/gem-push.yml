@@ -28,7 +28,7 @@ jobs:
         with:
           ruby-version: 2.7
       - name: push gem
-        uses: t3t5u/push-gem-to-gpr-action@v1
+        uses: trocco-io/push-gem-to-gpr-action@v2
         with:
           language: java
           gem-path: "embulk-output-${{ matrix.type }}/build/gems/*.gem"
