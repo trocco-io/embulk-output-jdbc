@@ -1,0 +1,255 @@
+in:
+  type: file
+  path_prefix: test.jsonl
+  parser:
+    type: jsonl
+    columns:
+    - {name: test_boolean, type: boolean}
+    - {name: test_long, type: long}
+    - {name: test_double, type: double}
+    - {name: test_string, type: string}
+    - {name: test_timestamp, type: timestamp}
+    - {name: test_json, type: json}
+    - {name: test_json_text, type: json}
+    - {name: test_json_string, type: json}
+    - {name: test_json_nstring, type: json}
+out:
+  type: redshift
+  mode: replace
+  host: test_host
+  user: test_user
+  password: '***'
+  database: test_database
+  schema: test_schema
+  table: test_table
+  column_options:
+    test_timestamp: {type: TIMESTAMPTZ}
+    test_json_text: {type: TEXT}
+    test_json_string: {type: 'VARCHAR(65535)', value_type: string}
+    test_json_nstring: {type: 'VARCHAR(65535)', value_type: nstring}
+  driver_path: null
+  aws_access_key_id: ***
+  aws_secret_access_key: ***
+  s3_bucket: test_s3_bucket
+  s3_key_prefix: test_s3_key_prefix
+2024-03-25 03:13:55.341 +0000: Embulk v0.9.26
+2024-03-25 03:13:55.972 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-25 03:13:57.229 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-25 03:13:57.721 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-25 03:13:57.804 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-redshift (0.10.5)
+2024-03-25 03:13:57.841 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
+2024-03-25 03:13:57.851 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
+2024-03-25 03:13:57.851 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
+2024-03-25 03:13:57.854 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
+2024-03-25 03:13:57.875 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-25 03:13:57.896 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:57.901 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:57.954 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:57.959 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-25 03:13:57.967 +0000 [INFO] (0001:transaction): TransactionIsolation=serializable
+2024-03-25 03:13:57.967 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
+2024-03-25 03:13:57.968 +0000 [INFO] (0001:transaction): Using replace mode
+2024-03-25 03:13:58.006 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean" BOOLEAN, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" VARCHAR(65535), "test_timestamp" TIMESTAMPTZ, "test_json" VARCHAR(65535), "test_json_text" TEXT, "test_json_string" VARCHAR(65535), "test_json_nstring" VARCHAR(65535))
+2024-03-25 03:13:58.033 +0000 [INFO] (0001:transaction): > 0.03 seconds
+2024-03-25 03:13:58.244 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-25 03:13:58.261 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:58.261 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:58.268 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:58.721 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:58.743 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:58.747 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:58.750 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:58.751 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:58.754 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:58.754 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:58.755 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:58.793 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:58.813 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:58.817 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:58.821 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:58.821 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:58.823 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:58.823 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:58.824 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:58.864 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:58.884 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:58.889 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:58.892 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:58.892 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:58.894 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:58.894 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:58.895 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:58.934 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:58.954 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:58.958 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:58.961 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:58.961 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:58.963 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:58.963 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:58.964 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:59.028 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:59.047 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.052 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:59.055 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:59.055 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:59.057 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:59.058 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:59.058 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:59.090 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:59.111 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.116 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:59.119 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:59.119 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:59.120 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:59.120 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:59.121 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:59.163 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:59.182 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.187 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:59.190 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:59.190 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:59.192 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:13:59.192 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:13:59.193 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:13:59.233 +0000 [INFO] (0016:task-0000): S3 region for bucket 'test_s3_bucket' is 'ap-northeast-1'.
+2024-03-25 03:13:59.253 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.257 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-25 03:13:59.261 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
+2024-03-25 03:13:59.261 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e7399b8f6_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
+2024-03-25 03:13:59.309 +0000 [INFO] (pool-3-thread-1): Uploading file id test_s3_key_prefix/27d24275-30c2-481e-922d-8b9ec006b22b to S3 (165 bytes 2 rows)
+2024-03-25 03:13:59.356 +0000 [INFO] (pool-3-thread-1): Uploaded file test_s3_key_prefix/27d24275-30c2-481e-922d-8b9ec006b22b (0.05 seconds)
+2024-03-25 03:13:59.376 +0000 [INFO] (pool-3-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.380 +0000 [INFO] (pool-3-thread-2): > 0.00 seconds
+2024-03-25 03:13:59.384 +0000 [INFO] (pool-3-thread-2): TransactionIsolation=serializable
+2024-03-25 03:13:59.384 +0000 [INFO] (pool-3-thread-2): Running COPY from file test_s3_key_prefix/27d24275-30c2-481e-922d-8b9ec006b22b
+2024-03-25 03:13:59.671 +0000 [INFO] (pool-3-thread-2): Loaded file test_s3_key_prefix/27d24275-30c2-481e-922d-8b9ec006b22b (0.29 seconds for COPY)
+2024-03-25 03:13:59.695 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:13:59.696 +0000 [INFO] (pool-4-thread-1): Uploading file id test_s3_key_prefix/a1a5d864-4eb7-4001-abc9-f8287c9787df to S3 (20 bytes 0 rows)
+2024-03-25 03:13:59.726 +0000 [INFO] (pool-4-thread-1): Uploaded file test_s3_key_prefix/a1a5d864-4eb7-4001-abc9-f8287c9787df (0.03 seconds)
+2024-03-25 03:13:59.743 +0000 [INFO] (pool-4-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:13:59.748 +0000 [INFO] (pool-4-thread-2): > 0.00 seconds
+2024-03-25 03:13:59.751 +0000 [INFO] (pool-4-thread-2): TransactionIsolation=serializable
+2024-03-25 03:13:59.751 +0000 [INFO] (pool-4-thread-2): Running COPY from file test_s3_key_prefix/a1a5d864-4eb7-4001-abc9-f8287c9787df
+2024-03-25 03:14:00.053 +0000 [INFO] (pool-4-thread-2): Loaded file test_s3_key_prefix/a1a5d864-4eb7-4001-abc9-f8287c9787df (0.30 seconds for COPY)
+2024-03-25 03:14:00.072 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:00.073 +0000 [INFO] (pool-5-thread-1): Uploading file id test_s3_key_prefix/02ce428f-54af-454a-8e2c-56dc7f255390 to S3 (20 bytes 0 rows)
+2024-03-25 03:14:00.097 +0000 [INFO] (pool-5-thread-1): Uploaded file test_s3_key_prefix/02ce428f-54af-454a-8e2c-56dc7f255390 (0.02 seconds)
+2024-03-25 03:14:00.120 +0000 [INFO] (pool-5-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:00.125 +0000 [INFO] (pool-5-thread-2): > 0.01 seconds
+2024-03-25 03:14:00.128 +0000 [INFO] (pool-5-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:00.128 +0000 [INFO] (pool-5-thread-2): Running COPY from file test_s3_key_prefix/02ce428f-54af-454a-8e2c-56dc7f255390
+2024-03-25 03:14:00.417 +0000 [INFO] (pool-5-thread-2): Loaded file test_s3_key_prefix/02ce428f-54af-454a-8e2c-56dc7f255390 (0.29 seconds for COPY)
+2024-03-25 03:14:00.442 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:00.443 +0000 [INFO] (pool-6-thread-1): Uploading file id test_s3_key_prefix/89816cb4-779a-44ee-894c-2c2cef7fe09e to S3 (20 bytes 0 rows)
+2024-03-25 03:14:00.471 +0000 [INFO] (pool-6-thread-1): Uploaded file test_s3_key_prefix/89816cb4-779a-44ee-894c-2c2cef7fe09e (0.03 seconds)
+2024-03-25 03:14:00.489 +0000 [INFO] (pool-6-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:00.493 +0000 [INFO] (pool-6-thread-2): > 0.00 seconds
+2024-03-25 03:14:00.496 +0000 [INFO] (pool-6-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:00.496 +0000 [INFO] (pool-6-thread-2): Running COPY from file test_s3_key_prefix/89816cb4-779a-44ee-894c-2c2cef7fe09e
+2024-03-25 03:14:00.773 +0000 [INFO] (pool-6-thread-2): Loaded file test_s3_key_prefix/89816cb4-779a-44ee-894c-2c2cef7fe09e (0.28 seconds for COPY)
+2024-03-25 03:14:00.799 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:00.800 +0000 [INFO] (pool-7-thread-1): Uploading file id test_s3_key_prefix/e91beb76-c31a-43b1-ab54-6d266189f942 to S3 (20 bytes 0 rows)
+2024-03-25 03:14:00.831 +0000 [INFO] (pool-7-thread-1): Uploaded file test_s3_key_prefix/e91beb76-c31a-43b1-ab54-6d266189f942 (0.03 seconds)
+2024-03-25 03:14:00.849 +0000 [INFO] (pool-7-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:00.853 +0000 [INFO] (pool-7-thread-2): > 0.00 seconds
+2024-03-25 03:14:00.857 +0000 [INFO] (pool-7-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:00.857 +0000 [INFO] (pool-7-thread-2): Running COPY from file test_s3_key_prefix/e91beb76-c31a-43b1-ab54-6d266189f942
+2024-03-25 03:14:01.125 +0000 [INFO] (pool-7-thread-2): Loaded file test_s3_key_prefix/e91beb76-c31a-43b1-ab54-6d266189f942 (0.27 seconds for COPY)
+2024-03-25 03:14:01.150 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:01.150 +0000 [INFO] (pool-8-thread-1): Uploading file id test_s3_key_prefix/0ef91b62-33f6-4059-a182-ba7dab39a00e to S3 (20 bytes 0 rows)
+2024-03-25 03:14:01.179 +0000 [INFO] (pool-8-thread-1): Uploaded file test_s3_key_prefix/0ef91b62-33f6-4059-a182-ba7dab39a00e (0.03 seconds)
+2024-03-25 03:14:01.197 +0000 [INFO] (pool-8-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:01.201 +0000 [INFO] (pool-8-thread-2): > 0.00 seconds
+2024-03-25 03:14:01.204 +0000 [INFO] (pool-8-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:01.204 +0000 [INFO] (pool-8-thread-2): Running COPY from file test_s3_key_prefix/0ef91b62-33f6-4059-a182-ba7dab39a00e
+2024-03-25 03:14:01.477 +0000 [INFO] (pool-8-thread-2): Loaded file test_s3_key_prefix/0ef91b62-33f6-4059-a182-ba7dab39a00e (0.27 seconds for COPY)
+2024-03-25 03:14:01.503 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:01.504 +0000 [INFO] (pool-9-thread-1): Uploading file id test_s3_key_prefix/eeefb5ed-d5f0-44f5-b12a-5bbb99ddcb1a to S3 (20 bytes 0 rows)
+2024-03-25 03:14:01.534 +0000 [INFO] (pool-9-thread-1): Uploaded file test_s3_key_prefix/eeefb5ed-d5f0-44f5-b12a-5bbb99ddcb1a (0.03 seconds)
+2024-03-25 03:14:01.553 +0000 [INFO] (pool-9-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:01.558 +0000 [INFO] (pool-9-thread-2): > 0.01 seconds
+2024-03-25 03:14:01.561 +0000 [INFO] (pool-9-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:01.561 +0000 [INFO] (pool-9-thread-2): Running COPY from file test_s3_key_prefix/eeefb5ed-d5f0-44f5-b12a-5bbb99ddcb1a
+2024-03-25 03:14:01.845 +0000 [INFO] (pool-9-thread-2): Loaded file test_s3_key_prefix/eeefb5ed-d5f0-44f5-b12a-5bbb99ddcb1a (0.28 seconds for COPY)
+2024-03-25 03:14:01.871 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:01.872 +0000 [INFO] (pool-10-thread-1): Uploading file id test_s3_key_prefix/3a44bc39-6b46-449d-99c2-e081286f4664 to S3 (20 bytes 0 rows)
+2024-03-25 03:14:01.901 +0000 [INFO] (pool-10-thread-1): Uploaded file test_s3_key_prefix/3a44bc39-6b46-449d-99c2-e081286f4664 (0.03 seconds)
+2024-03-25 03:14:01.919 +0000 [INFO] (pool-10-thread-2): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:01.923 +0000 [INFO] (pool-10-thread-2): > 0.00 seconds
+2024-03-25 03:14:01.926 +0000 [INFO] (pool-10-thread-2): TransactionIsolation=serializable
+2024-03-25 03:14:01.926 +0000 [INFO] (pool-10-thread-2): Running COPY from file test_s3_key_prefix/3a44bc39-6b46-449d-99c2-e081286f4664
+2024-03-25 03:14:02.173 +0000 [INFO] (pool-10-thread-2): Loaded file test_s3_key_prefix/3a44bc39-6b46-449d-99c2-e081286f4664 (0.25 seconds for COPY)
+2024-03-25 03:14:02.212 +0000 [INFO] (0016:task-0000): Loaded 1 files.
+2024-03-25 03:14:02.221 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-25 03:14:02.222 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=28800}
+2024-03-25 03:14:02.317 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:02.323 +0000 [INFO] (0001:transaction): > 0.01 seconds
+2024-03-25 03:14:02.327 +0000 [INFO] (0001:transaction): TransactionIsolation=serializable
+2024-03-25 03:14:02.327 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table"
+2024-03-25 03:14:02.334 +0000 [INFO] (0001:transaction): > 0.01 seconds
+2024-03-25 03:14:02.334 +0000 [INFO] (0001:transaction): SQL: ALTER TABLE "test_schema"."test_table_0000018e7399b8f6_embulk" RENAME TO "test_table"
+2024-03-25 03:14:02.338 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-25 03:14:02.379 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:14:02.379 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:14:02.379 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:14:02.400 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:02.404 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-25 03:14:02.407 +0000 [INFO] (0001:transaction): TransactionIsolation=serializable
+2024-03-25 03:14:02.407 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table_0000018e7399b8f6_embulk"
+2024-03-25 03:14:02.453 +0000 [INFO] (0001:transaction): > 0.05 seconds
+2024-03-25 03:14:02.453 +0000 [INFO] (main): Committed.
+2024-03-25 03:14:02.454 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
+in:
+  type: redshift
+  host: test_host
+  user: test_user
+  password: '***'
+  database: test_database
+  column_options:
+    test_timestamp: {type: string, timestamp_format: '%Y-%m-%d %H:%M:%S.%6N %z'}
+    test_json: {type: json}
+    test_json_text: {type: json}
+    test_json_string: {type: json}
+    test_json_nstring: {type: json}
+  query: SELECT * FROM "test_schema"."test_table"
+  fetch_rows: 1000
+out:
+  type: command
+  command: 'cat -'
+  formatter:
+    type: jsonl
+2024-03-25 03:14:02.697 +0000: Embulk v0.9.26
+2024-03-25 03:14:03.305 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-25 03:14:04.607 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-25 03:14:05.117 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-25 03:14:05.178 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-redshift (0.13.2)
+2024-03-25 03:14:05.205 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
+2024-03-25 03:14:05.231 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:14:05.233 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:14:05.279 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:05.289 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
+2024-03-25 03:14:05.460 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-25 03:14:05.488 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
+2024-03-25 03:14:05.536 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-25 03:14:05.543 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.551 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.553 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.556 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.558 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.561 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.564 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.567 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-25 03:14:05.571 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-25 03:14:05.572 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-25 03:14:05.591 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5439/test_database options {user=test_user, password=***, tcpKeepAlive=true, loginTimeout=300, socketTimeout=1800}
+2024-03-25 03:14:05.611 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-25 03:14:05.616 +0000 [INFO] (0016:task-0000): SQL: DECLARE cur NO SCROLL CURSOR FOR SELECT * FROM "test_schema"."test_table"
+2024-03-25 03:14:05.626 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 1000 FROM cur
+2024-03-25 03:14:05.641 +0000 [INFO] (0016:task-0000): > 0.02 seconds
+2024-03-25 03:14:05.652 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 1000 FROM cur
+2024-03-25 03:14:05.655 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+{"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":null}
+{"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":null}
+2024-03-25 03:14:05.693 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-25 03:14:05.698 +0000 [INFO] (main): Committed.
+2024-03-25 03:14:05.698 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
