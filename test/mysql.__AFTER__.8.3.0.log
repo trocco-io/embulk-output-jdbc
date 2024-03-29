@@ -93,8 +93,8 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Loading 2 rows
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds (loaded 2 rows in total)
+0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Loading 6 rows
+0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds (loaded 6 rows in total)
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=2700000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
@@ -162,6 +162,10 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":{"キー":"値"}}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":[{"キー1":"値1"},{"キー2":"値2"}]}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":12345}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":123.45}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":"hoge"}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}

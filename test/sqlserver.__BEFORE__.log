@@ -25,7 +25,7 @@ out:
   column_options:
     test_timestamp: {type: DATETIME}
     test_json_text: {type: TEXT}
-    test_json_string: {type: 'VARCHAR(max)', value_type: string}
+    test_json_string: {type: 'VARCHAR(max) COLLATE Latin1_General_100_CI_AS_SC_UTF8', value_type: string}
     test_json_nstring: {type: 'NVARCHAR(max)', value_type: nstring}
   driver_path: null
 
@@ -45,7 +45,7 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver 7.2.2.0
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using replace mode
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000000000000000_embulk" ("test_boolean" BIT, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" NVARCHAR(max), "test_timestamp" DATETIME, "test_json" NVARCHAR(max), "test_json_text" TEXT, "test_json_string" VARCHAR(max), "test_json_nstring" NVARCHAR(max))
+0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000000000000000_embulk" ("test_boolean" BIT, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" NVARCHAR(max), "test_timestamp" DATETIME, "test_json" NVARCHAR(max), "test_json_text" TEXT, "test_json_string" VARCHAR(max) COLLATE Latin1_General_100_CI_AS_SC_UTF8, "test_json_nstring" NVARCHAR(max))
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
@@ -88,8 +88,8 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Loading 2 rows
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): > 0.00 seconds (loaded 2 rows in total)
+0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Loading 6 rows
+0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): > 0.00 seconds (loaded 6 rows in total)
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
@@ -146,8 +146,12 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433 options {user=test_user, password=***, applicationName=embulk-input-sqlserver, databaseName=test_database, loginTimeout=300, socketTimeout=1800000}
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): SQL: SELECT * FROM [test_schema].[test_table]
 0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): > 0.00 seconds
-{"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":null,"test_json_text":{"??":"?"},"test_json_string":{"??":"?"},"test_json_nstring":null}
-{"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":null,"test_json_text":[{"??1":"?1"},{"??2":"?2"}],"test_json_string":[{"??1":"?1"},{"??2":"?2"}],"test_json_nstring":null}
+{"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":null,"test_json_text":{"??":"?"},"test_json_string":{"キー":"値"},"test_json_nstring":null}
+{"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":null,"test_json_text":[{"??1":"?1"},{"??2":"?2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":null}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}

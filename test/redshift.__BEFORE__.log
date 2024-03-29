@@ -116,7 +116,7 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=serializable
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") ? GZIP DELIMITER '\t' NULL '\\N' ESCAPE TRUNCATECOLUMNS ACCEPTINVCHARS STATUPDATE OFF COMPUPDATE OFF
-0000-00-00 00:00:00.000 +0000 [INFO] (pool-3-thread-1): Uploading file id test_s3_key_prefix/00000000-0000-0000-0000-000000000000 to S3 (165 bytes 2 rows)
+0000-00-00 00:00:00.000 +0000 [INFO] (pool-3-thread-1): Uploading file id test_s3_key_prefix/00000000-0000-0000-0000-000000000000 to S3 (197 bytes 6 rows)
 0000-00-00 00:00:00.000 +0000 [INFO] (pool-3-thread-1): Uploaded file test_s3_key_prefix/00000000-0000-0000-0000-000000000000 (0.00 seconds)
 0000-00-00 00:00:00.000 +0000 [INFO] (pool-3-thread-2): SQL: SET search_path TO "test_schema"
 0000-00-00 00:00:00.000 +0000 [INFO] (pool-3-thread-2): > 0.00 seconds
@@ -250,6 +250,10 @@ out:
 0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":null}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":null}
 0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
 0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
