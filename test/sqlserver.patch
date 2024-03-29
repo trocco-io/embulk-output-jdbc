@@ -1,0 +1,37 @@
+diff --git a/embulk-output-sqlserver/build.gradle b/embulk-output-sqlserver/build.gradle
+index fe207cf..8fa1651 100644
+--- a/embulk-output-sqlserver/build.gradle
++++ b/embulk-output-sqlserver/build.gradle
+@@ -1,6 +1,6 @@
+ dependencies {
+     implementation(project(path: ":embulk-output-jdbc", configuration: "runtimeElements"))
+-    implementation 'com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre8'
++    defaultJdbcDriver 'com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre8'
+     implementation 'net.sourceforge.jtds:jtds:1.3.1'
+ 
+     // embulk-output-oracle has used jnr-ffi included in JRuby, which had been embedded with Embulk till v0.10.20.
+diff --git a/embulk-output-sqlserver/gradle.lockfile b/embulk-output-sqlserver/gradle.lockfile
+index 13595e7..a969b44 100644
+--- a/embulk-output-sqlserver/gradle.lockfile
++++ b/embulk-output-sqlserver/gradle.lockfile
+@@ -8,7 +8,6 @@ com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.6.7=compileClasspath,runt
+ com.github.jnr:jffi:1.2.16=compileClasspath,runtimeClasspath
+ com.github.jnr:jnr-ffi:2.1.7=compileClasspath,runtimeClasspath
+ com.github.jnr:jnr-x86asm:1.0.2=compileClasspath,runtimeClasspath
+-com.microsoft.sqlserver:mssql-jdbc:7.2.2.jre8=compileClasspath,runtimeClasspath
+ javax.validation:validation-api:1.1.0.Final=compileClasspath,runtimeClasspath
+ net.sourceforge.jtds:jtds:1.3.1=compileClasspath,runtimeClasspath
+ org.embulk:embulk-spi:0.10.49=compileClasspath
+diff --git a/embulk-output-sqlserver/src/main/java/org/embulk/output/SQLServerOutputPlugin.java b/embulk-output-sqlserver/src/main/java/org/embulk/output/SQLServerOutputPlugin.java
+index d1f6e75..0799d3e 100644
+--- a/embulk-output-sqlserver/src/main/java/org/embulk/output/SQLServerOutputPlugin.java
++++ b/embulk-output-sqlserver/src/main/java/org/embulk/output/SQLServerOutputPlugin.java
+@@ -155,7 +155,7 @@ public class SQLServerOutputPlugin
+         if (sqlServerTask.getDriverType().equalsIgnoreCase("mssql-jdbc")) {
+             useJtdsDriver = false;
+             try {
+-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
++                loadDriver("com.microsoft.sqlserver.jdbc.SQLServerDriver", sqlServerTask.getDriverPath());
+             }
+             catch (Exception e) {
+                 throw new ConfigException("Can't load Microsoft SQLServerDriver from classpath", e);
