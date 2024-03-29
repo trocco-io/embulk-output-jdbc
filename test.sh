@@ -3,6 +3,7 @@ cd `dirname ${0}`
 VERSION=0.10.5
 BEFORE=refs/tags/v${VERSION}
 AFTER=remotes/trocco/fix/nstring_to_json_to_origin
+git checkout .
 git checkout master
 git branch -D __BEFORE__ > /dev/null 2>&1
 git branch -D __AFTER__ > /dev/null 2>&1

@@ -1,2 +1,6 @@
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":{"キー":"値"}}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":[{"キー1":"値1"},{"キー2":"値2"}]}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":12345}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":123.45}
+{"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":"hoge"}
