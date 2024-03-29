@@ -29,80 +29,80 @@ out:
     test_json_nstring: {type: 'NVARCHAR(max)', value_type: nstring}
   driver_path: null
 
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-sqlserver (0.10.5)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): JDBC Driver = /home/ubuntu/.embulk/lib/gems/gems/embulk-output-sqlserver-0.10.5-java/default_jdbc_driver/mssql-jdbc-7.2.2.jre8.jar
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver 7.2.2.0
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using replace mode
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000000000000000_embulk" ("test_boolean" BIT, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" NVARCHAR(max), "test_timestamp" DATETIME, "test_json" NVARCHAR(max), "test_json_text" TEXT, "test_json_string" VARCHAR(max) COLLATE Latin1_General_100_CI_AS_SC_UTF8, "test_json_nstring" NVARCHAR(max))
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Loading 6 rows
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): > 0.00 seconds (loaded 6 rows in total)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: DROP TABLE "test_schema"."test_table"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: EXEC sp_rename "test_schema.test_table_0000000000000000_embulk", "test_table", 'OBJECT'
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds (-1 rows)
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
+2024-03-29 18:59:27.315 +0000: Embulk v0.9.26
+2024-03-29 18:59:27.915 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:59:29.209 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:59:29.709 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:59:29.792 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-sqlserver (0.10.5)
+2024-03-29 18:59:29.835 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
+2024-03-29 18:59:29.848 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
+2024-03-29 18:59:29.849 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
+2024-03-29 18:59:29.852 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
+2024-03-29 18:59:29.877 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:59:29.900 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:29.905 +0000 [INFO] (0001:transaction): JDBC Driver = /home/ubuntu/.embulk/lib/gems/gems/embulk-output-sqlserver-0.10.5-java/default_jdbc_driver/mssql-jdbc-7.2.2.jre8.jar
+2024-03-29 18:59:29.914 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.185 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:59:30.185 +0000 [INFO] (0001:transaction): Using JDBC Driver 7.2.2.0
+2024-03-29 18:59:30.185 +0000 [INFO] (0001:transaction): Using replace mode
+2024-03-29 18:59:30.265 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean" BIT, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" NVARCHAR(max), "test_timestamp" DATETIME, "test_json" NVARCHAR(max), "test_json_text" TEXT, "test_json_string" VARCHAR(max) COLLATE Latin1_General_100_CI_AS_SC_UTF8, "test_json_nstring" NVARCHAR(max))
+2024-03-29 18:59:30.270 +0000 [INFO] (0001:transaction): > 0.01 seconds
+2024-03-29 18:59:30.325 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:59:30.337 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.338 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.350 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.433 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.434 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.437 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.437 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.439 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.559 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.559 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.560 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.561 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.563 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.654 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.655 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.655 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.655 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.657 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.751 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.751 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.752 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.752 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.754 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.836 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.836 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.837 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.838 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.839 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:30.916 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:30.916 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:30.916 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:30.916 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:30.918 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:31.037 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:31.037 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:31.038 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:31.038 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:31.040 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:31.111 +0000 [INFO] (0015:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:59:31.111 +0000 [INFO] (0015:task-0000): Prepared SQL: INSERT INTO "test_schema"."test_table_0000018e8b94d359_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:59:31.160 +0000 [INFO] (0015:task-0000): Loading 6 rows
+2024-03-29 18:59:31.216 +0000 [INFO] (0015:task-0000): > 0.06 seconds (loaded 6 rows in total)
+2024-03-29 18:59:31.218 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:59:31.218 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:31.297 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:59:31.303 +0000 [INFO] (0001:transaction): SQL: DROP TABLE "test_schema"."test_table"
+2024-03-29 18:59:31.309 +0000 [INFO] (0001:transaction): > 0.01 seconds
+2024-03-29 18:59:31.309 +0000 [INFO] (0001:transaction): SQL: EXEC sp_rename "test_schema.test_table_0000018e8b94d359_embulk", "test_table", 'OBJECT'
+2024-03-29 18:59:31.315 +0000 [INFO] (0001:transaction): > 0.01 seconds (-1 rows)
+2024-03-29 18:59:31.328 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:31.328 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:31.330 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433;databaseName=test_database options {user=test_user, password=***}
+2024-03-29 18:59:31.404 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:59:31.410 +0000 [INFO] (main): Committed.
+2024-03-29 18:59:31.410 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
 in:
   type: sqlserver
   host: test_host
@@ -121,37 +121,37 @@ out:
   command: 'cat -'
   formatter:
     type: jsonl
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-sqlserver (0.13.2)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433 options {user=test_user, password=***, applicationName=embulk-input-sqlserver, databaseName=test_database, loginTimeout=300, socketTimeout=1800000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver 7.2.2.0
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433 options {user=test_user, password=***, applicationName=embulk-input-sqlserver, databaseName=test_database, loginTimeout=300, socketTimeout=1800000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): SQL: SELECT * FROM [test_schema].[test_table]
-0000-00-00 00:00:00.000 +0000 [INFO] (0015:task-0000): > 0.00 seconds
+2024-03-29 18:59:31.664 +0000: Embulk v0.9.26
+2024-03-29 18:59:32.297 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:59:33.663 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:59:34.192 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:59:34.278 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-sqlserver (0.13.2)
+2024-03-29 18:59:34.313 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
+2024-03-29 18:59:34.351 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:34.362 +0000 [INFO] (0001:transaction): Connecting to jdbc:sqlserver://test_host:1433 options {user=test_user, password=***, applicationName=embulk-input-sqlserver, databaseName=test_database, loginTimeout=300, socketTimeout=1800000}
+2024-03-29 18:59:34.606 +0000 [INFO] (0001:transaction): Using JDBC Driver 7.2.2.0
+2024-03-29 18:59:34.670 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:59:34.732 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
+2024-03-29 18:59:34.762 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:59:34.770 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.781 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.784 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.787 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.789 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.793 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.798 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.803 +0000 [INFO] (0015:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:59:34.820 +0000 [WARN] (0015:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:59:34.820 +0000 [WARN] (0015:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:59:34.846 +0000 [INFO] (0015:task-0000): Connecting to jdbc:sqlserver://test_host:1433 options {user=test_user, password=***, applicationName=embulk-input-sqlserver, databaseName=test_database, loginTimeout=300, socketTimeout=1800000}
+2024-03-29 18:59:34.978 +0000 [INFO] (0015:task-0000): SQL: SELECT * FROM [test_schema].[test_table]
+2024-03-29 18:59:34.986 +0000 [INFO] (0015:task-0000): > 0.01 seconds
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"??":"?"},"test_json_string":{"キー":"値"},"test_json_nstring":{"キー":"値"}}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"??1":"?1"},{"??2":"?2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":[{"キー1":"値1"},{"キー2":"値2"}]}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":12345}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":123.45}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":"hoge"}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
+2024-03-29 18:59:35.040 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:59:35.045 +0000 [INFO] (main): Committed.
+2024-03-29 18:59:35.045 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}

@@ -30,86 +30,86 @@ out:
   driver_path: test/mysql-connector-j-8.3.0.jar
   create_table_option: CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
   options: {characterEncoding: utf8}
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-mysql (0.10.5)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver mysql-connector-j-8.3.0 (Revision: 805f872a57875f311cb82487efcfb070411a3fa0)
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): This plugin will update MySQL Connector/J version in the near future release.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): It has some incompatibility changes.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): For example, the 5.1.35 introduced `noTimezoneConversionForDateType` and `cacheDefaultTimezone` options.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): Please read a document and make sure configuration carefully before updating the plugin.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): The plugin will set `useLegacyDatetimeCode=false` by default in future.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using replace mode
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE `test_table_0000000000000000_embulk` (`test_boolean` BOOLEAN, `test_long` BIGINT, `test_double` DOUBLE PRECISION, `test_string` TEXT, `test_timestamp` DATETIME, `test_json` TEXT, `test_json_text` TEXT, `test_json_string` TEXT, `test_json_nstring` TEXT) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000000000000000_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Loading 6 rows
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds (loaded 6 rows in total)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=2700000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: RENAME TABLE `test_table_0000000000000000_embulk` TO `0000000000000000_embulk_swap_tmp`, `test_table` TO `test_table_0000000000000000_embulk`, `0000000000000000_embulk_swap_tmp` TO `test_table`
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS `test_table_0000000000000000_embulk`
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS `test_table_0000000000000000_embulk`
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
+2024-03-29 18:56:07.537 +0000: Embulk v0.9.26
+2024-03-29 18:56:08.143 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:56:09.471 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:56:10.042 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:56:10.117 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-mysql (0.10.5)
+2024-03-29 18:56:10.165 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
+2024-03-29 18:56:10.180 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
+2024-03-29 18:56:10.181 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
+2024-03-29 18:56:10.184 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
+2024-03-29 18:56:10.204 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:56:10.225 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.232 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.391 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.391 +0000 [INFO] (0001:transaction): Using JDBC Driver mysql-connector-j-8.3.0 (Revision: 805f872a57875f311cb82487efcfb070411a3fa0)
+2024-03-29 18:56:10.391 +0000 [WARN] (0001:transaction): This plugin will update MySQL Connector/J version in the near future release.
+2024-03-29 18:56:10.391 +0000 [WARN] (0001:transaction): It has some incompatibility changes.
+2024-03-29 18:56:10.391 +0000 [WARN] (0001:transaction): For example, the 5.1.35 introduced `noTimezoneConversionForDateType` and `cacheDefaultTimezone` options.
+2024-03-29 18:56:10.391 +0000 [WARN] (0001:transaction): Please read a document and make sure configuration carefully before updating the plugin.
+2024-03-29 18:56:10.400 +0000 [WARN] (0001:transaction): The plugin will set `useLegacyDatetimeCode=false` by default in future.
+2024-03-29 18:56:10.400 +0000 [INFO] (0001:transaction): Using replace mode
+2024-03-29 18:56:10.453 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE `test_table_0000018e8b91c6d4_embulk` (`test_boolean` BOOLEAN, `test_long` BIGINT, `test_double` DOUBLE PRECISION, `test_string` TEXT, `test_timestamp` DATETIME, `test_json` TEXT, `test_json_text` TEXT, `test_json_string` TEXT, `test_json_nstring` TEXT) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+2024-03-29 18:56:10.477 +0000 [INFO] (0001:transaction): > 0.02 seconds
+2024-03-29 18:56:10.651 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:56:10.663 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.663 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.672 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.730 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.730 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:10.733 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.733 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.734 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.789 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.789 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:10.791 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.791 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.793 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.845 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.845 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:10.846 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.846 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.848 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.902 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.902 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:10.902 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.902 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.904 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:10.958 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:10.959 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:10.959 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:10.960 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:10.962 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:11.017 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:11.017 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:11.018 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:11.018 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:11.019 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:11.073 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:11.073 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:11.074 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:11.074 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:11.077 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:11.137 +0000 [INFO] (0016:task-0000): TransactionIsolation=repeatable_read
+2024-03-29 18:56:11.137 +0000 [INFO] (0016:task-0000): Prepared SQL: INSERT INTO `test_table_0000018e8b91c6d4_embulk` (`test_boolean`, `test_long`, `test_double`, `test_string`, `test_timestamp`, `test_json`, `test_json_text`, `test_json_string`, `test_json_nstring`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2024-03-29 18:56:11.189 +0000 [INFO] (0016:task-0000): Loading 6 rows
+2024-03-29 18:56:11.200 +0000 [INFO] (0016:task-0000): > 0.01 seconds (loaded 6 rows in total)
+2024-03-29 18:56:11.201 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:56:11.202 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=2700000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:11.257 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
+2024-03-29 18:56:11.258 +0000 [INFO] (0001:transaction): SQL: RENAME TABLE `test_table_0000018e8b91c6d4_embulk` TO `0000018e8b91c9fa_embulk_swap_tmp`, `test_table` TO `test_table_0000018e8b91c6d4_embulk`, `0000018e8b91c9fa_embulk_swap_tmp` TO `test_table`
+2024-03-29 18:56:11.284 +0000 [INFO] (0001:transaction): > 0.03 seconds
+2024-03-29 18:56:11.284 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS `test_table_0000018e8b91c6d4_embulk`
+2024-03-29 18:56:11.301 +0000 [INFO] (0001:transaction): > 0.02 seconds
+2024-03-29 18:56:11.308 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:11.308 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:11.310 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, rewriteBatchedStatements=true, useSSL=false, user=test_user, tcpKeepAlive=true, password=***, connectTimeout=300000}
+2024-03-29 18:56:11.363 +0000 [INFO] (0001:transaction): TransactionIsolation=repeatable_read
+2024-03-29 18:56:11.364 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS `test_table_0000018e8b91c6d4_embulk`
+2024-03-29 18:56:11.367 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:56:11.368 +0000 [INFO] (main): Committed.
+2024-03-29 18:56:11.368 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
 in:
   type: mysql
   host: test_host
@@ -129,43 +129,43 @@ out:
   command: 'cat -'
   formatter:
     type: jsonl
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-mysql (0.13.2)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): The MySQL JDBC driver for the class "com.mysql.jdbc.Driver" is expected to be found in "default_jdbc_driver" at /home/ubuntu/.embulk/lib/gems/gems/embulk-input-mysql-0.13.2-java/default_jdbc_driver/mysql-connector-java-5.1.44.jar.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Fetch size is 10000. Using server-side prepared statement.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, useSSL=false, user=test_user, useLegacyDatetimeCode=false, tcpKeepAlive=true, useCursorFetch=true, connectTimeout=300000, password=***, zeroDateTimeBehavior=convertToNull}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): embulk-input-mysql 0.9.0 upgraded the bundled MySQL Connector/J version from 5.1.34 to 5.1.44 .
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): And set useLegacyDatetimeCode=false by default in order to get correct datetime value when the server timezone and the client timezone are different.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): Set useLegacyDatetimeCode=true if you need to get datetime value same as older embulk-input-mysql.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Fetch size is 10000. Using server-side prepared statement.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, useSSL=false, user=test_user, useLegacyDatetimeCode=false, tcpKeepAlive=true, useCursorFetch=true, connectTimeout=300000, password=***, zeroDateTimeBehavior=convertToNull}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SELECT * FROM `test_table`
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:56:11.624 +0000: Embulk v0.9.26
+2024-03-29 18:56:12.226 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:56:13.583 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:56:14.067 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:56:14.133 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-mysql (0.13.2)
+2024-03-29 18:56:14.161 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
+2024-03-29 18:56:14.187 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:14.190 +0000 [INFO] (0001:transaction): The MySQL JDBC driver for the class "com.mysql.jdbc.Driver" is expected to be found in "default_jdbc_driver" at /home/ubuntu/.embulk/lib/gems/gems/embulk-input-mysql-0.13.2-java/default_jdbc_driver/mysql-connector-java-5.1.44.jar.
+2024-03-29 18:56:14.195 +0000 [INFO] (0001:transaction): Fetch size is 10000. Using server-side prepared statement.
+2024-03-29 18:56:14.195 +0000 [INFO] (0001:transaction): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, useSSL=false, user=test_user, useLegacyDatetimeCode=false, tcpKeepAlive=true, useCursorFetch=true, connectTimeout=300000, password=***, zeroDateTimeBehavior=convertToNull}
+2024-03-29 18:56:14.376 +0000 [INFO] (0001:transaction): Using JDBC Driver mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )
+2024-03-29 18:56:14.376 +0000 [WARN] (0001:transaction): embulk-input-mysql 0.9.0 upgraded the bundled MySQL Connector/J version from 5.1.34 to 5.1.44 .
+2024-03-29 18:56:14.376 +0000 [WARN] (0001:transaction): And set useLegacyDatetimeCode=false by default in order to get correct datetime value when the server timezone and the client timezone are different.
+2024-03-29 18:56:14.376 +0000 [WARN] (0001:transaction): Set useLegacyDatetimeCode=true if you need to get datetime value same as older embulk-input-mysql.
+2024-03-29 18:56:14.411 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:56:14.472 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
+2024-03-29 18:56:14.499 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:56:14.506 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.514 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.518 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.521 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.523 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.526 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.530 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.532 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:56:14.545 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:56:14.545 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:56:14.565 +0000 [INFO] (0016:task-0000): Fetch size is 10000. Using server-side prepared statement.
+2024-03-29 18:56:14.565 +0000 [INFO] (0016:task-0000): Connecting to jdbc:mysql://test_host:3306/test_database options {characterEncoding=utf8, useCompression=true, socketTimeout=1800000, useSSL=false, user=test_user, useLegacyDatetimeCode=false, tcpKeepAlive=true, useCursorFetch=true, connectTimeout=300000, password=***, zeroDateTimeBehavior=convertToNull}
+2024-03-29 18:56:14.620 +0000 [INFO] (0016:task-0000): SQL: SELECT * FROM `test_table`
+2024-03-29 18:56:14.625 +0000 [INFO] (0016:task-0000): > 0.00 seconds
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":null}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":null}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
+2024-03-29 18:56:14.682 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:56:14.686 +0000 [INFO] (main): Committed.
+2024-03-29 18:56:14.687 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}

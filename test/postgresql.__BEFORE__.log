@@ -29,104 +29,104 @@ out:
     test_json_nstring: {type: 'TEXT', value_type: nstring}
   driver_path: null
   ssl: true
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-postgresql (0.10.5)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): JDBC Driver = /home/ubuntu/.embulk/lib/gems/gems/embulk-output-postgresql-0.10.5-java/default_jdbc_driver/postgresql-9.4-1205-jdbc41.jar
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using replace mode
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000000000000000_embulk" ("test_boolean" BOOLEAN, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" TEXT, "test_timestamp" TIMESTAMPTZ, "test_json" JSON, "test_json_text" TEXT, "test_json_string" TEXT, "test_json_nstring" TEXT)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000000000000000_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Loading 6 rows (443 bytes)
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds (loaded 6 rows in total)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=28800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: ALTER TABLE "test_schema"."test_table_0000000000000000_embulk" RENAME TO "test_table"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table_0000000000000000_embulk"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
+2024-03-29 18:57:00.764 +0000: Embulk v0.9.26
+2024-03-29 18:57:01.402 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:57:02.688 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:57:03.191 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:57:03.264 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-postgresql (0.10.5)
+2024-03-29 18:57:03.311 +0000 [INFO] (0001:transaction): Loaded plugin embulk-parser-jsonl (0.2.1)
+2024-03-29 18:57:03.321 +0000 [INFO] (0001:transaction): Listing local files at directory '.' filtering filename by prefix 'test.jsonl'
+2024-03-29 18:57:03.322 +0000 [INFO] (0001:transaction): "follow_symlinks" is set false. Note that symbolic links to directories are skipped.
+2024-03-29 18:57:03.324 +0000 [INFO] (0001:transaction): Loading files [test.jsonl]
+2024-03-29 18:57:03.344 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:57:03.362 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.367 +0000 [INFO] (0001:transaction): JDBC Driver = /home/ubuntu/.embulk/lib/gems/gems/embulk-output-postgresql-0.10.5-java/default_jdbc_driver/postgresql-9.4-1205-jdbc41.jar
+2024-03-29 18:57:03.370 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.525 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.526 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.533 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:57:03.533 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
+2024-03-29 18:57:03.533 +0000 [INFO] (0001:transaction): Using replace mode
+2024-03-29 18:57:03.544 +0000 [INFO] (0001:transaction): SQL: CREATE TABLE "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean" BOOLEAN, "test_long" BIGINT, "test_double" DOUBLE PRECISION, "test_string" TEXT, "test_timestamp" TIMESTAMPTZ, "test_json" JSON, "test_json_text" TEXT, "test_json_string" TEXT, "test_json_nstring" TEXT)
+2024-03-29 18:57:03.555 +0000 [INFO] (0001:transaction): > 0.01 seconds
+2024-03-29 18:57:03.596 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:57:03.637 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.637 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.650 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.672 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.673 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.674 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.674 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.678 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.678 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.680 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.701 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.702 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.703 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.703 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.704 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.705 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.707 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.728 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.730 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.730 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.730 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.731 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.731 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.734 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.753 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.755 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.755 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.755 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.756 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.756 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.757 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.777 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.778 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.779 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.779 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.780 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.780 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.781 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.800 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.801 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.802 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.802 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.803 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.803 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.805 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.827 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.828 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.828 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.828 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.829 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.829 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.831 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.852 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.853 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:03.854 +0000 [INFO] (0016:task-0000): TransactionIsolation=read_committed
+2024-03-29 18:57:03.854 +0000 [INFO] (0016:task-0000): Copy SQL: COPY "test_schema"."test_table_0000018e8b929637_embulk" ("test_boolean", "test_long", "test_double", "test_string", "test_timestamp", "test_json", "test_json_text", "test_json_string", "test_json_nstring") FROM STDIN
+2024-03-29 18:57:03.902 +0000 [INFO] (0016:task-0000): Loading 6 rows (443 bytes)
+2024-03-29 18:57:03.904 +0000 [INFO] (0016:task-0000): > 0.00 seconds (loaded 6 rows in total)
+2024-03-29 18:57:03.908 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:57:03.909 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=28800}
+2024-03-29 18:57:03.948 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.950 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.950 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:57:03.951 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table"
+2024-03-29 18:57:03.953 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.953 +0000 [INFO] (0001:transaction): SQL: ALTER TABLE "test_schema"."test_table_0000018e8b929637_embulk" RENAME TO "test_table"
+2024-03-29 18:57:03.955 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.960 +0000 [WARN] (0001:transaction): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:03.961 +0000 [WARN] (0001:transaction): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:03.962 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {user=test_user, ssl=true, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:03.989 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:03.990 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.991 +0000 [INFO] (0001:transaction): TransactionIsolation=read_committed
+2024-03-29 18:57:03.991 +0000 [INFO] (0001:transaction): SQL: DROP TABLE IF EXISTS "test_schema"."test_table_0000018e8b929637_embulk"
+2024-03-29 18:57:03.993 +0000 [INFO] (0001:transaction): > 0.00 seconds
+2024-03-29 18:57:03.994 +0000 [INFO] (main): Committed.
+2024-03-29 18:57:03.994 +0000 [INFO] (main): Next config diff: {"in":{"last_path":"test.jsonl"},"out":{}}
 in:
   type: postgresql
   host: test_host
@@ -146,43 +146,43 @@ out:
   command: 'cat -'
   formatter:
     type: jsonl
-0000-00-00 00:00:00.000 +0000: Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Started Embulk v0.9.26
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-postgresql (0.13.2)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
-0000-00-00 00:00:00.000 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): The Pg JDBC driver for the class "org.postgresql.Driver" is expected to be found in "default_jdbc_driver" at /home/ubuntu/.embulk/lib/gems/gems/embulk-input-postgresql-0.13.2-java/default_jdbc_driver/postgresql-9.4-1205-jdbc41.jar.
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {ApplicationName=embulk-input-postgresql, ssl=true, user=test_user, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
-0000-00-00 00:00:00.000 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {ApplicationName=embulk-input-postgresql, ssl=true, user=test_user, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: DECLARE cur NO SCROLL CURSOR FOR SELECT * FROM "test_schema"."test_table"
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 10000 FROM cur
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 10000 FROM cur
-0000-00-00 00:00:00.000 +0000 [INFO] (0016:task-0000): > 0.00 seconds
+2024-03-29 18:57:04.246 +0000: Embulk v0.9.26
+2024-03-29 18:57:04.881 +0000 [WARN] (main): DEPRECATION: JRuby org.jruby.embed.ScriptingContainer is directly injected.
+2024-03-29 18:57:06.246 +0000 [INFO] (main): Gem's home and path are set by default: "/home/ubuntu/.embulk/lib/gems"
+2024-03-29 18:57:06.678 +0000 [INFO] (main): Started Embulk v0.9.26
+2024-03-29 18:57:06.742 +0000 [INFO] (0001:transaction): Loaded plugin embulk-input-postgresql (0.13.2)
+2024-03-29 18:57:06.769 +0000 [INFO] (0001:transaction): Loaded plugin embulk-output-command (0.1.4)
+2024-03-29 18:57:06.796 +0000 [WARN] (0001:transaction): "UTC" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:06.799 +0000 [INFO] (0001:transaction): The Pg JDBC driver for the class "org.postgresql.Driver" is expected to be found in "default_jdbc_driver" at /home/ubuntu/.embulk/lib/gems/gems/embulk-input-postgresql-0.13.2-java/default_jdbc_driver/postgresql-9.4-1205-jdbc41.jar.
+2024-03-29 18:57:06.802 +0000 [INFO] (0001:transaction): Connecting to jdbc:postgresql://test_host:5432/test_database options {ApplicationName=embulk-input-postgresql, ssl=true, user=test_user, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:06.983 +0000 [INFO] (0001:transaction): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:06.989 +0000 [INFO] (0001:transaction): Using JDBC Driver PostgreSQL 9.4 JDBC4.1 (build 1205)
+2024-03-29 18:57:07.030 +0000 [INFO] (0001:transaction): Using local thread executor with max_threads=16 / output tasks 8 = input tasks 1 * 8
+2024-03-29 18:57:07.089 +0000 [INFO] (0001:transaction): Loaded plugin embulk-formatter-jsonl (0.1.4)
+2024-03-29 18:57:07.122 +0000 [INFO] (0001:transaction): {done:  0 / 1, running: 0}
+2024-03-29 18:57:07.131 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.141 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.145 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.149 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.152 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.157 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.162 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.166 +0000 [INFO] (0016:task-0000): Using command [sh, -c, cat -]
+2024-03-29 18:57:07.184 +0000 [WARN] (0016:task-0000): Z is deprecated as a military time zone name. Use UTC instead.
+2024-03-29 18:57:07.184 +0000 [WARN] (0016:task-0000): "Z" is recognized as "Z" to be compatible with the legacy style.
+2024-03-29 18:57:07.207 +0000 [INFO] (0016:task-0000): Connecting to jdbc:postgresql://test_host:5432/test_database options {ApplicationName=embulk-input-postgresql, ssl=true, user=test_user, password=***, tcpKeepAlive=true, sslfactory=org.postgresql.ssl.NonValidatingFactory, loginTimeout=300, socketTimeout=1800}
+2024-03-29 18:57:07.233 +0000 [INFO] (0016:task-0000): SQL: SET search_path TO "test_schema"
+2024-03-29 18:57:07.236 +0000 [INFO] (0016:task-0000): SQL: DECLARE cur NO SCROLL CURSOR FOR SELECT * FROM "test_schema"."test_table"
+2024-03-29 18:57:07.238 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 10000 FROM cur
+2024-03-29 18:57:07.243 +0000 [INFO] (0016:task-0000): > 0.01 seconds
+2024-03-29 18:57:07.255 +0000 [INFO] (0016:task-0000): SQL: FETCH FORWARD 10000 FROM cur
+2024-03-29 18:57:07.255 +0000 [INFO] (0016:task-0000): > 0.00 seconds
 {"test_boolean":true,"test_long":123,"test_double":1.23,"test_string":"あいうえお","test_timestamp":"1999-12-31 23:59:59.000000 +0000","test_json":{"キー":"値"},"test_json_text":{"キー":"値"},"test_json_string":{"キー":"値"},"test_json_nstring":null}
 {"test_boolean":false,"test_long":456,"test_double":4.56,"test_string":"かきくけこ","test_timestamp":"2000-01-01 00:00:00.000000 +0000","test_json":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_text":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_string":[{"キー1":"値1"},{"キー2":"値2"}],"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":null,"test_json_text":null,"test_json_string":null,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":12345,"test_json_text":12345,"test_json_string":12345,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":123.45,"test_json_text":123.45,"test_json_string":123.45,"test_json_nstring":null}
 {"test_boolean":null,"test_long":null,"test_double":null,"test_string":null,"test_timestamp":null,"test_json":"hoge","test_json_text":"hoge","test_json_string":"hoge","test_json_nstring":null}
-0000-00-00 00:00:00.000 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Committed.
-0000-00-00 00:00:00.000 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
+2024-03-29 18:57:07.292 +0000 [INFO] (0001:transaction): {done:  1 / 1, running: 0}
+2024-03-29 18:57:07.296 +0000 [INFO] (main): Committed.
+2024-03-29 18:57:07.296 +0000 [INFO] (main): Next config diff: {"in":{},"out":{}}
