@@ -28,6 +28,7 @@ public class StandardBatchInsert
     private int batchRows;
     private long totalRows;
     private int[] lastUpdateCounts;
+    private KeepAliveManager keepAliveManager;
 
     public StandardBatchInsert(JdbcOutputConnector connector, Optional<MergeConfig> mergeConfig) throws IOException, SQLException
     {
@@ -43,6 +44,11 @@ public class StandardBatchInsert
         this.totalRows = 0;
         this.batch = prepareStatement(loadTable, insertSchema);
         batch.clearBatch();
+
+        // Start keep-alive task to prevent connection timeout during input processing.
+        // This is necessary when input takes a long time (e.g., fetching from external APIs)
+        // and intermediate network devices (like AWS Gateway) may terminate idle connections.
+        this.keepAliveManager = KeepAliveManager.start(connection.getConnection());
     }
 
     protected PreparedStatement prepareStatement(TableIdentifier loadTable, JdbcSchema insertSchema) throws SQLException
@@ -65,8 +71,33 @@ public class StandardBatchInsert
 
     public void close() throws IOException, SQLException
     {
+        // Stop keep-alive task before closing connection
+        stopKeepAlive();
+
         if (connection != null) {
             connection.close();
+        }
+    }
+
+    private void stopKeepAlive()
+    {
+        if (keepAliveManager != null) {
+            keepAliveManager.stop();
+            keepAliveManager = null;
+        }
+    }
+
+    private void pauseKeepAlive()
+    {
+        if (keepAliveManager != null) {
+            keepAliveManager.pause();
+        }
+    }
+
+    private void resumeKeepAlive()
+    {
+        if (keepAliveManager != null) {
+            keepAliveManager.resume();
         }
     }
 
@@ -75,6 +106,10 @@ public class StandardBatchInsert
         lastUpdateCounts = new int[]{};
 
         if (batchWeight == 0) return;
+
+        // Pause keep-alive during batch execution to ensure no concurrent connection access.
+        // pause() blocks until any in-progress keep-alive query completes.
+        pauseKeepAlive();
 
         logger.info(String.format("Loading %,d rows", batchRows));
         long startTime = System.currentTimeMillis();
@@ -95,6 +130,9 @@ public class StandardBatchInsert
             batch.clearBatch();
             batchRows = 0;
             batchWeight = 0;
+
+            // Resume keep-alive after batch execution completes (success or failure)
+            resumeKeepAlive();
         }
     }
 

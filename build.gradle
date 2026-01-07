@@ -17,7 +17,7 @@ allprojects {
 }
 
 ext {
-    troccoVersion = "0.0.2"
+    troccoVersion = "0.0.3"
 }
 
 subprojects {
@@ -77,6 +77,7 @@ subprojects {
         testImplementation "org.embulk:embulk-junit4:0.10.49"
         testImplementation "org.embulk:embulk-core:0.10.49"
         testImplementation "org.embulk:embulk-deps:0.10.49"
+        testImplementation "org.mockito:mockito-core:4.11.0"
     }
 
     test {
