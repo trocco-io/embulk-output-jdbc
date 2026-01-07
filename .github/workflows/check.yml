@@ -35,7 +35,7 @@ jobs:
         env:
           _JAVA_OPTIONS: "-Xmx2048m -Xms512m"
           EMBULK_OUTPUT_MYSQL_TEST_CONFIG: "${{ github.workspace }}/ci/mysql.yml"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: mysql
@@ -76,7 +76,7 @@ jobs:
         env:
           _JAVA_OPTIONS: "-Xmx2048m -Xms512m"
           EMBULK_OUTPUT_POSTGRESQL_TEST_CONFIG: "${{ github.workspace }}/ci/postgresql.yml"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: postgresql
@@ -118,7 +118,7 @@ jobs:
         env:
           _JAVA_OPTIONS: "-Xmx2048m -Xms512m"
           EMBULK_OUTPUT_REDSHIFT_TEST_CONFIG: "${{ github.workspace }}/ci/redshift.yml"
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: redshift
