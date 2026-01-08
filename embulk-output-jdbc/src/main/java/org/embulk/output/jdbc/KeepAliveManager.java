@@ -112,7 +112,6 @@ public class KeepAliveManager {
                         }
                         try (Statement stmt = connection.createStatement()) {
                             stmt.executeQuery(KEEP_ALIVE_QUERY);
-                            logger.debug("Executed keep-alive query: {}", KEEP_ALIVE_QUERY);
                         } catch (SQLException e) {
                             if (!stopped.get()) {
                                 logger.warn("Keep-alive query failed: {}", e.getMessage());
@@ -124,7 +123,6 @@ public class KeepAliveManager {
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                logger.debug("Keep-alive task interrupted");
             }
             logger.info("Keep-alive task stopped");
         });
@@ -146,7 +144,6 @@ public class KeepAliveManager {
         // Acquire and immediately release the lock to wait for any in-progress query to complete
         queryLock.lock();
         queryLock.unlock();
-        logger.debug("Keep-alive paused");
     }
 
     /**
@@ -156,7 +153,6 @@ public class KeepAliveManager {
      */
     public void resume() {
         paused.set(false);
-        logger.debug("Keep-alive resumed");
     }
 
     /**
@@ -170,6 +166,5 @@ public class KeepAliveManager {
         paused.set(true);  // Also set paused to prevent any new queries
         task.cancel(true);
         executor.shutdownNow();
-        logger.debug("Keep-alive stopped");
     }
 }
