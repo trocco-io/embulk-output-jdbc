@@ -729,14 +729,4 @@ public class JdbcOutputConnection
         logger.info(String.format(Locale.ENGLISH,"Using JDBC Driver %s",meta.getDriverVersion()));
     }
 
-    /**
-     * Returns the underlying JDBC Connection.
-     * This is used by KeepAliveManager to execute keep-alive queries.
-     *
-     * @return The underlying JDBC Connection
-     */
-    public Connection getConnection() {
-        return connection;
-    }
-
 }
