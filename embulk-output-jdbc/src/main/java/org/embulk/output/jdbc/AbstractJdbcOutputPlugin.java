@@ -1157,7 +1157,14 @@ public abstract class AbstractJdbcOutputPlugin
                 BatchInsert batch, List<ColumnSetter> columnSetters,
                 int batchSize, PluginTask task)
         {
-            this.pageReader = new PageReaderRecord(pageReader);
+            this(pageReader, batch, columnSetters, batchSize, task, true);
+        }
+
+        public PluginPageOutput(PageReader pageReader,
+                BatchInsert batch, List<ColumnSetter> columnSetters,
+                int batchSize, PluginTask task, boolean saveRecordsForRetry)
+        {
+            this.pageReader = new PageReaderRecord(pageReader, saveRecordsForRetry);
             this.batch = batch;
             this.columns = pageReader.getSchema().getColumns();
             this.columnSetters = columnSetters;

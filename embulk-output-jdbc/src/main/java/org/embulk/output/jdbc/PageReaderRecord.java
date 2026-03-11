@@ -2,6 +2,7 @@ package org.embulk.output.jdbc;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.embulk.spi.Column;
@@ -12,17 +13,28 @@ import org.msgpack.value.Value;
 /**
  * Record read by PageReader.
  * The class will save read records for retry.
+ *
+ * When {@code saveRecords} is {@code false}, records are not saved to memory,
+ * which avoids heap pressure for batch-insert implementations that do not
+ * need row-level retry (e.g. file-based COPY).
  */
 public class PageReaderRecord implements Record
 {
     private final PageReader pageReader;
     private final List<MemoryRecord> readRecords;
+    private final boolean saveRecords;
     private MemoryRecord lastRecord;
 
     public PageReaderRecord(PageReader pageReader)
     {
+        this(pageReader, true);
+    }
+
+    public PageReaderRecord(PageReader pageReader, boolean saveRecords)
+    {
         this.pageReader = pageReader;
-        readRecords = new ArrayList<>();
+        this.saveRecords = saveRecords;
+        readRecords = saveRecords ? new ArrayList<>() : Collections.<MemoryRecord>emptyList();
     }
 
     public void setPage(Page page)
@@ -84,6 +96,9 @@ public class PageReaderRecord implements Record
 
     private <T> T save(Column column, T value)
     {
+        if (!saveRecords) {
+            return value;
+        }
         if (lastRecord == null) {
             lastRecord = new MemoryRecord(pageReader.getSchema().getColumnCount());
             readRecords.add(lastRecord);
