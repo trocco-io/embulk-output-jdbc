@@ -56,7 +56,10 @@ jobs:
           body: |
             <!-- pre-release-maven -->
             ### Pre-Release: Maven
-            Published `io.trocco:embulk-output-jdbc:${{ steps.version.outputs.version }}` to GitHub Packages.
+            | | |
+            |---|---|
+            | Package | `io.trocco:embulk-output-jdbc` |
+            | Version | `${{ steps.version.outputs.version }}` |
 
   pre-release-gems:
     name: Pre-Release (Gems) / ${{ matrix.subproject }}
@@ -99,9 +102,13 @@ jobs:
           language: java
           gem-path: "./${{ matrix.subproject }}/build/gems/*.gem"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Get gem name
+      - name: Get gem info
         id: gem
-        run: echo "name=$(ls ./${{ matrix.subproject }}/build/gems/*.gem | xargs basename)" >> $GITHUB_OUTPUT
+        run: |
+          filename=$(ls ./${{ matrix.subproject }}/build/gems/*.gem | xargs basename)
+          version=$(./gradlew -q :${{ matrix.subproject }}:properties | grep '^version:' | awk '{print $2}')
+          echo "name=${{ matrix.subproject }}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_OUTPUT
       - name: Find existing comment
         uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
         id: find-comment
@@ -118,4 +125,7 @@ jobs:
           body: |
             <!-- pre-release-gem-${{ matrix.subproject }} -->
             ### Pre-Release: Gem / ${{ matrix.subproject }}
-            Published `${{ steps.gem.outputs.name }}` to GitHub Packages.
+            | | |
+            |---|---|
+            | Package | `${{ steps.gem.outputs.name }}` |
+            | Version | `${{ steps.gem.outputs.version }}` |
