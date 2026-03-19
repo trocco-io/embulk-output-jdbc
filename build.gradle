@@ -7,7 +7,6 @@ plugins {
     id 'checkstyle'
     id "com.palantir.git-version" version "3.1.0"
     id "org.embulk.embulk-plugins" version "0.6.2" apply false
-    id "com.palantir.git-version" version "3.0.0"
 }
 
 def resolvedVersion = {
@@ -37,7 +36,6 @@ subprojects {
     apply plugin: 'java'
     apply plugin: "maven-publish"
     apply plugin: "org.embulk.embulk-plugins"
-    apply plugin: 'com.palantir.git-version'
     //apply plugin: 'jacoco'
 
     repositories {
