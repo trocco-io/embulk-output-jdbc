@@ -1,11 +1,8 @@
 name: Check
-on: [ pull_request, push ]
+on: [ push ]
 jobs:
   mysql5_7:
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     services:
@@ -42,9 +39,6 @@ jobs:
         path: embulk-output-mysql/build/reports/tests/test
   mysql8_3:
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     services:
@@ -96,9 +90,6 @@ jobs:
         path: embulk-output-mysql/build/reports/tests/test
   postgresql9_4:
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     services:
@@ -140,9 +131,6 @@ jobs:
   # TODO: Start testing with PostgreSQL 14 or later.
   postgresql13:
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     services:
@@ -185,9 +173,6 @@ jobs:
         path: embulk-output-postgresql/build/reports/tests/test
   redshift:
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     # Testing embulk-output-redshift emulated with PostgreSQL.
@@ -228,9 +213,6 @@ jobs:
         if-no-files-found: ignore
   sqlserver: # TODO: Use https://hub.docker.com/_/microsoft-mssql-server
     runs-on: ubuntu-latest
-    # push: always run.
-    # pull_request: run only when the PR is submitted from a forked repository, not within this repository.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
     steps:
