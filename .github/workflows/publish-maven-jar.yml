@@ -1,4 +1,4 @@
-name: Publish Maven Jar
+name: Publish
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
       - '*'
 
 jobs:
-  build-publish:
-    name: Build + Publish
+  publish-maven:
+    name: Publish Maven
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -34,3 +34,44 @@ jobs:
         run: ./gradlew :embulk-output-jdbc:publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-gems:
+    name: Publish Gems / ${{ matrix.subproject }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        subproject:
+          - embulk-output-jdbc
+          - embulk-output-mysql
+          - embulk-output-postgresql
+          - embulk-output-redshift
+          - embulk-output-sqlserver
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 8
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build gem
+        run: ./gradlew :${{ matrix.subproject }}:gem
+      - name: Publish(GPR Ruby Gems)
+        uses: trocco-io/push-gem-to-gpr-action@v2
+        with:
+          language: java
+          gem-path: "./${{ matrix.subproject }}/build/gems/*.gem"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
