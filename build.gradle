@@ -28,10 +28,6 @@ allprojects {
     description = "Inserts or updates records to a table."
 }
 
-ext {
-    troccoVersion = "0.0.2"
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: "maven-publish"
@@ -122,8 +118,6 @@ subprojects {
         summary = "JDBC output plugin for Embulk"
         homepage = "https://github.com/trocco-io/embulk-output-jdbc"
         licenses = [ "Apache-2.0" ]
-        archiveVersion = "${project.version}.trocco.${project.troccoVersion}"
-
         into("default_jdbc_driver") {
             from configurations.defaultJdbcDriver
         }
