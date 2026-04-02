@@ -1,12 +1,7 @@
 name: Pull Request
 
 on:
-  pull_request:
-    branches:
-      - master
-    types:
-      - opened
-      - synchronize
+  workflow_dispatch:
 
 jobs:
   pre-release-maven:
@@ -69,12 +64,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Build gem
-        run: ./gradlew :${{ matrix.subproject }}:gem
       - name: Publish(GPR Ruby Gems)
         uses: trocco-io/push-gem-to-gpr-action@v2
         with:
           language: java
+          gradle-subproject: ${{ matrix.subproject }}
           gem-path: "./${{ matrix.subproject }}/build/gems/*.gem"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -96,21 +90,43 @@ jobs:
         with:
           distribution: temurin
           java-version: 8
-      - name: Get version
+      - name: Get version and PR number
         id: version
-        run: echo "version=$(./gradlew -q :embulk-output-jdbc:properties | grep '^version:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "version=$(./gradlew -q :embulk-output-jdbc:properties | grep '^version:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+          PR_COUNT=$(gh pr list --head "${{ github.ref_name }}" --json number --jq 'length')
+          if [ "$PR_COUNT" = "1" ]; then
+            echo "pr_number=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')" >> $GITHUB_OUTPUT
+          fi
+      - name: Print versions (no PR)
+        if: ${{ steps.version.outputs.pr_number == '' }}
+        run: |
+          echo "### Pre-Release"
+          echo ""
+          echo "Maven: io.trocco:embulk-output-jdbc ${{ steps.version.outputs.version }}"
+          echo ""
+          echo "Gems:"
+          echo "  embulk-output-jdbc ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-mysql ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-postgresql ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-redshift ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-sqlserver ${{ steps.version.outputs.version }}"
       - name: Find existing comment
+        if: ${{ steps.version.outputs.pr_number != '' }}
         uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
         id: find-comment
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ steps.version.outputs.pr_number }}
           comment-author: github-actions[bot]
           body-includes: "<!-- pre-release -->"
       - name: Create or update comment
+        if: ${{ steps.version.outputs.pr_number != '' }}
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ steps.version.outputs.pr_number }}
           edit-mode: replace
           body: |
             <!-- pre-release -->
