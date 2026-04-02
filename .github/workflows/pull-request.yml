@@ -102,9 +102,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "version=$(./gradlew -q :embulk-output-jdbc:properties | grep '^version:' | awk '{print $2}')" >> $GITHUB_OUTPUT
-          PR_COUNT=$(gh pr list --head "${{ github.ref_name }}" --json number --jq 'length')
+          BRANCH="${{ github.head_ref || github.ref_name }}"
+          PR_COUNT=$(gh pr list --head "$BRANCH" --json number --jq 'length')
           if [ "$PR_COUNT" = "1" ]; then
-            echo "pr_number=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')" >> $GITHUB_OUTPUT
+            echo "pr_number=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')" >> $GITHUB_OUTPUT
           fi
       - name: Print versions (no PR)
         if: ${{ steps.version.outputs.pr_number == '' }}
