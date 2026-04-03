@@ -54,11 +54,6 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
-      - name: Set up JDK
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          distribution: temurin
-          java-version: 8
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
@@ -67,11 +62,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Build gem
-        run: ./gradlew :${{ matrix.subproject }}:gem
       - name: Publish(GPR Ruby Gems)
         uses: trocco-io/push-gem-to-gpr-action@ece6ed69b9a93b30ff0dbc8bc995d4d647bdbada # v3
         with:
           language: java
+          gradle-subproject: ${{ matrix.subproject }}
           gem-path: "./${{ matrix.subproject }}/build/gems/*.gem"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
