@@ -65,7 +65,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Publish(GPR Ruby Gems)
-        uses: trocco-io/push-gem-to-gpr-action@25bf27a8aab8b3c95e2aa19189d9815942fdfabf # v2
+        uses: trocco-io/push-gem-to-gpr-action@ece6ed69b9a93b30ff0dbc8bc995d4d647bdbada # v3
         with:
           language: java
           gradle-subproject: ${{ matrix.subproject }}
