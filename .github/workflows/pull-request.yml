@@ -1,0 +1,132 @@
+name: Pull Request
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pre-release-maven:
+    name: Pre-Release (Maven)
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Publish(GPR Maven)
+        run: ./gradlew :embulk-output-jdbc:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pre-release-gems:
+    name: Pre-Release (Gems) / ${{ matrix.subproject }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        subproject:
+          - embulk-output-jdbc
+          - embulk-output-mysql
+          - embulk-output-postgresql
+          - embulk-output-redshift
+          - embulk-output-sqlserver
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        with:
+          ruby-version: "2.7"
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Publish(GPR Ruby Gems)
+        uses: trocco-io/push-gem-to-gpr-action@ece6ed69b9a93b30ff0dbc8bc995d4d647bdbada # v3
+        with:
+          language: java
+          gradle-subproject: ${{ matrix.subproject }}
+          gem-path: "./${{ matrix.subproject }}/build/gems/*.gem"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  comment:
+    name: Post Pre-Release Comment
+    runs-on: ubuntu-latest
+    needs:
+      - pre-release-maven
+      - pre-release-gems
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+      - name: Get version and PR number
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "version=$(./gradlew -q :embulk-output-jdbc:properties | grep '^version:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+          BRANCH="${{ github.head_ref || github.ref_name }}"
+          PR_COUNT=$(gh pr list --head "$BRANCH" --json number --jq 'length')
+          if [ "$PR_COUNT" = "1" ]; then
+            echo "pr_number=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')" >> $GITHUB_OUTPUT
+          fi
+      - name: Print versions (no PR)
+        if: ${{ steps.version.outputs.pr_number == '' }}
+        run: |
+          echo "### Pre-Release"
+          echo ""
+          echo "Maven: io.trocco:embulk-output-jdbc ${{ steps.version.outputs.version }}"
+          echo ""
+          echo "Gems:"
+          echo "  embulk-output-jdbc ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-mysql ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-postgresql ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-redshift ${{ steps.version.outputs.version }}"
+          echo "  embulk-output-sqlserver ${{ steps.version.outputs.version }}"
+      - name: Find existing comment
+        if: ${{ steps.version.outputs.pr_number != '' }}
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
+        id: find-comment
+        with:
+          issue-number: ${{ steps.version.outputs.pr_number }}
+          comment-author: github-actions[bot]
+          body-includes: "<!-- pre-release -->"
+      - name: Create or update comment
+        if: ${{ steps.version.outputs.pr_number != '' }}
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ steps.version.outputs.pr_number }}
+          edit-mode: replace
+          body: |
+            <!-- pre-release -->
+            ### Pre-Release
+
+            **Maven**
+            `io.trocco:embulk-output-jdbc` `${{ steps.version.outputs.version }}`
+
+            **Gems**
+            `embulk-output-jdbc` `${{ steps.version.outputs.version }}`
+            `embulk-output-mysql` `${{ steps.version.outputs.version }}`
+            `embulk-output-postgresql` `${{ steps.version.outputs.version }}`
+            `embulk-output-redshift` `${{ steps.version.outputs.version }}`
+            `embulk-output-sqlserver` `${{ steps.version.outputs.version }}`
