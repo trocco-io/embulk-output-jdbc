@@ -1,5 +1,8 @@
 name: Check
-on: [ push ]
+on:
+  push:
+    branches:
+      - '**'
 jobs:
   mysql5_7:
     runs-on: ubuntu-latest
