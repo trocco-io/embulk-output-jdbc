@@ -1100,7 +1100,7 @@ public abstract class AbstractJdbcOutputPlugin
             }
             batch.prepare(destTable, insertIntoSchema);
 
-            PluginPageOutput output = new PluginPageOutput(reader, batch, columnSetters, task.getBatchSize(), task);
+            PluginPageOutput output = new PluginPageOutput(reader, batch, columnSetters, task.getBatchSize(), task, saveRecordsForRetry());
             batch = null;
             return output;
 
@@ -1116,6 +1116,16 @@ public abstract class AbstractJdbcOutputPlugin
                 }
             }
         }
+    }
+
+    /**
+     * Whether to save records in memory for row-level retry.
+     * Subclasses that use file-based batch insert (e.g. COPY) can override
+     * this to return {@code false} to avoid unnecessary heap pressure.
+     */
+    protected boolean saveRecordsForRetry()
+    {
+        return true;
     }
 
     public static File findPluginRoot(Class<?> cls)
@@ -1157,7 +1167,14 @@ public abstract class AbstractJdbcOutputPlugin
                 BatchInsert batch, List<ColumnSetter> columnSetters,
                 int batchSize, PluginTask task)
         {
-            this.pageReader = new PageReaderRecord(pageReader);
+            this(pageReader, batch, columnSetters, batchSize, task, true);
+        }
+
+        public PluginPageOutput(PageReader pageReader,
+                BatchInsert batch, List<ColumnSetter> columnSetters,
+                int batchSize, PluginTask task, boolean saveRecordsForRetry)
+        {
+            this.pageReader = new PageReaderRecord(pageReader, saveRecordsForRetry);
             this.batch = batch;
             this.columns = pageReader.getSchema().getColumns();
             this.columnSetters = columnSetters;
